@@ -11,7 +11,7 @@ In order to allow cross-origin requests from the UI (the UI is served by github 
 
 ## Receiving Messages
 
-User generated messages will be sent as `POST` requests to the `/chat/message` route. The data will be encoded in `multipart/form-data` format.
+User generated messages will be sent as `POST` requests to the `/chat/messages` route. The data will be encoded in `multipart/form-data` format.
 
 When the user joins a chat, you will recieve a message with data about the user. When the user sends a message, you will recieve a message with the user's message in `text`.
 
