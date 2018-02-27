@@ -31,13 +31,15 @@ Requirements:
 - The results should be sorted by agony
 - The scraper APIs already return results sorted by agony, you should take advantage of this!
 
-You may write your API in whatever language you want. It should run on port 8000 and expose one HTTP endpoint:
+**You may write your API in whatever language you want. Don't feel stuck to our tech stack! Please use whatever you think will present your best possible work. ** 
+
+It should run on port 8000 and expose one HTTP endpoint:
 
 - `GET /flights/search` - returns flight results from all providers as JSON
 
 The response should look identical to a scraper API response except that it will contain results from all providers while still sorted by agony.
 
-In addition to the correctness of the code you submit, **we also care about the quality.** Understand that this sample of work represents you, and use all best practices in your implementation. We place a high premium on code readability at Hipmunk, and your code will be evaluated with that in mind.
+In addition to the correctness of the code you submit, **we also care about the quality.** Understand that this sample of work represents you, and use all best practices in your implementation. We place a high premium on code readability at Hipmunk, and your code will be evaluated with that in mind. Include any documentation you feel is necessary for us to run your code and understand your thinking behind the choices you've made. 
 
 # Testing
 
