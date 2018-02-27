@@ -31,7 +31,7 @@ Requirements:
 - The results should be sorted by agony
 - The scraper APIs already return results sorted by agony, you should take advantage of this!
 
-**You may write your API in whatever language you want. Don't feel stuck to our tech stack! Please use whatever you think will present your best possible work. ** 
+**You may write your API in whatever language you want. Don't feel stuck to our tech stack!** Please use whatever you think will present your best possible work. We’d much rather read a clean Node app than a Tornado hairball.”
 
 It should run on port 8000 and expose one HTTP endpoint:
 
