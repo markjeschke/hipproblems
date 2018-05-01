@@ -55,7 +55,7 @@ function createDummyHotelResult(hotelId, location) {
     return {
         hotel: {
             id: hotelId,
-            imageURL: `https://picsum.photos/100/100/?image=` + imageId,
+            imageURL: `https://picsum.photos/100/100/?image=${imageId}`,
             name,
             address: createHotelAddress(location),
         },
