@@ -39,6 +39,7 @@ function createHotelAddress(location) {
         "Vu Blvd",
         "Ruppenstein Pl",
         "Dhimes Rd",
+        "Tse Way"
     ]);
     const zipCode = 10000 + Math.floor(Math.random() * 89999);
     return `${number} ${streetName}\n${location} ${zipCode}`;
@@ -46,10 +47,15 @@ function createHotelAddress(location) {
 
 function createDummyHotelResult(hotelId, location) {
     const name = createHotelName(location);
+    const imageIds = [
+      862, 864, 857, 860, 826, 817, 799, 743, 737, 690, 670, 622, 590, 579,
+      522, 514, 513, 510, 460, 451, 441, 437, 428, 420, 419, 417, 411, 410
+    ];
+    const imageId = imageIds[hotelId % imageIds.length];
     return {
         hotel: {
             id: hotelId,
-            imageURL: `http://lorempixel.com/100/100/city/${hotelId}`,
+            imageURL: `https://picsum.photos/100/100/?image=${imageId}`,
             name,
             address: createHotelAddress(location),
         },
