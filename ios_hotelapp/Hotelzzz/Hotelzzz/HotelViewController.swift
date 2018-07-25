@@ -18,15 +18,6 @@ class HotelViewController: UIViewController {
         }
     }
     
-    var hotelIdText: String = ""
-    
-    var hotelId: Int = 0 {
-        didSet {
-            print("hotelId: \(hotelId)")
-            hotelIdText = String(hotelId)
-        }
-    }
-    
     var hotelAddress: String = "" {
         didSet {
             print("hotelAddress: \(hotelAddress)")
@@ -57,7 +48,6 @@ class HotelViewController: UIViewController {
         
         hotelNameLabel.text = hotelName
         hotelPriceLabel.text = hotelPriceText
-        hotelIdLabel.text = hotelIdText
         hotelAddressLabel.text = hotelAddress
         let replacedDimensionsURL = hotelImageURL.replacingOccurrences(of: "100", with: "600")
         hotelImageView.loadImageUsingUrlString(url: URL(string: replacedDimensionsURL))

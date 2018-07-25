@@ -54,7 +54,6 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     
     var price = 0
     var hotelDictionary = [String: AnyObject]()
-    var id: Int = 0
     var address: String = ""
     var name: String = ""
     var imageURL: String = ""
@@ -69,6 +68,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
                 userContentController.add(self, name: "API_READY")
                 userContentController.add(self, name: "HOTEL_API_HOTEL_SELECTED")
                 userContentController.add(self, name: "HOTEL_API_RESULTS_READY")
+                userContentController.add(self, name: "HOTEL_API_HOTEL_SORTED")
 
                 return userContentController
             }()
@@ -105,10 +105,6 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
             if let selectedHotel = message.body as? Dictionary<String, AnyObject> {
                 for (_, value) in selectedHotel {
                     print("result: \(value)")
-                    
-                    _selectedHotel = value as? SearchViewController.Hotels
-                    print("_selectedHotel: \(String(describing: _selectedHotel))")
-                    
                     for (key, value) in (value as? Dictionary<String, AnyObject>)! {
                         switch key {
                         case "price":
@@ -117,7 +113,6 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
                             hotelDictionary = value as! [String: AnyObject]
                             address = hotelDictionary["address"] as! String
                             name = hotelDictionary["name"] as! String
-                            id = hotelDictionary["id"] as! Int
                             imageURL = hotelDictionary["imageURL"] as! String
                         default:
                             print("default value")
@@ -125,17 +120,24 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
                     }
                 }
             }
-            
             self.performSegue(withIdentifier: "hotel_details", sender: nil)
-            
-            
         case "HOTEL_API_RESULTS_READY":
              if let hotelResults = message.body as? Dictionary<String, AnyObject> {
 //                print("hotelResults: \(hotelResults)")
                 for (_, value) in hotelResults {
-                    print("value: \(value)")
+                    var resultPlural = "result"
+                    if value.count != 1 {
+                        resultPlural = resultPlural+"s"
+                    }
+                    title = "\(String(value.count)) \(resultPlural)"
                 }
             }
+        case "HOTEL_API_HOTEL_SORTED":
+            let priceAscend = ""
+            self.webView.evaluateJavaScript(
+                "window.JSAPI.setHotelSort(\(priceAscend))",
+                completionHandler: nil)
+            print("priceAscend")
         default: break
         }
     }
@@ -146,7 +148,6 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         if segue.identifier == "hotel_details" {
             let controller = segue.destination as! HotelViewController
             controller.hotelName = name
-            controller.hotelId = id
             controller.hotelPrice = price
             controller.hotelAddress = address
             controller.hotelImageURL = imageURL
