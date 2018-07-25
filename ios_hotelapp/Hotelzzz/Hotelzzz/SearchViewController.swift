@@ -10,6 +10,11 @@ import Foundation
 import WebKit
 import UIKit
 
+enum SortId: String {
+    case sortByName = "name"
+    case priceAscend = "priceAscend"
+    case priceDescend = "priceDescend"
+}
 
 private let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
@@ -23,7 +28,11 @@ private func jsonStringify(_ obj: [AnyHashable: Any]) -> String {
 }
 
 
-class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate {
+class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate  {
+    
+    @IBAction func sortAction(sender: Any?) {
+        selectSortId(sortBy: SortId.sortByName.rawValue)
+    }
 
     struct Search {
         let location: String
@@ -76,12 +85,16 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         }())
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.navigationDelegate = self
-
         self.view.addSubview(webView)
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[webView]|", options: [], metrics: nil, views: ["webView": webView]))
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[webView]|", options: [], metrics: nil, views: ["webView": webView]))
         return webView
     }()
+    
+    fileprivate func selectSortId(sortBy: String) {
+        self.webView.evaluateJavaScript("window.JSAPI.setHotelSort(\"\(sortBy)\")",
+            completionHandler: nil)
+    }
 
     func search(location: String, dateStart: Date, dateEnd: Date) {
         _searchToRun = Search(location: location, dateStart: dateStart, dateEnd: dateEnd)
@@ -95,6 +108,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     }
     
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        print("message.name: \(message.name)")
         switch message.name {
         case "API_READY":
             guard let searchToRun = _searchToRun else { fatalError("Tried to load the page without having a search to run") }
@@ -104,7 +118,6 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         case "HOTEL_API_HOTEL_SELECTED":
             if let selectedHotel = message.body as? Dictionary<String, AnyObject> {
                 for (_, value) in selectedHotel {
-                    print("result: \(value)")
                     for (key, value) in (value as? Dictionary<String, AnyObject>)! {
                         switch key {
                         case "price":
@@ -123,7 +136,6 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
             self.performSegue(withIdentifier: "hotel_details", sender: nil)
         case "HOTEL_API_RESULTS_READY":
              if let hotelResults = message.body as? Dictionary<String, AnyObject> {
-//                print("hotelResults: \(hotelResults)")
                 for (_, value) in hotelResults {
                     var resultPlural = "result"
                     if value.count != 1 {
@@ -133,17 +145,16 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
                 }
             }
         case "HOTEL_API_HOTEL_SORTED":
-            let priceAscend = ""
+            let sortId = SortId.priceAscend
             self.webView.evaluateJavaScript(
-                "window.JSAPI.setHotelSort(\(priceAscend))",
+                "window.JSAPI.setHotelSort(\(sortId))",
                 completionHandler: nil)
             print("priceAscend")
         default: break
         }
     }
     
-    // MARK: - Segues
-    
+    // MARK: - Segue to HotelViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "hotel_details" {
             let controller = segue.destination as! HotelViewController

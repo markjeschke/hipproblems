@@ -110,7 +110,9 @@
                             <constraint firstItem="adv-mj-jZX" firstAttribute="top" secondItem="cxL-25-x7E" secondAttribute="bottom" constant="8" id="xkY-WX-Kj3"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Hotelzzz" id="gd7-1d-975"/>
+                    <navigationItem key="navigationItem" title="Hotelzzz" id="gd7-1d-975">
+                        <barButtonItem key="backBarButtonItem" title=" " id="tch-8f-TFd"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="locationField" destination="4it-RC-WFO" id="gI0-93-4E8"/>
                         <outlet property="openDateEndPickerButton" destination="zeC-8W-8hU" id="xV5-Qk-eDS"/>
@@ -135,6 +137,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Select hotel sort" id="Pwl-3H-5Qg">
+                        <barButtonItem key="backBarButtonItem" title=" " id="v5O-Gd-NBc"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="43f-hx-Bg0">
                             <connections>
                                 <action selector="dismissWithSender:" destination="FPC-mT-DqL" id="Ttg-CO-V0Y"/>
@@ -160,6 +163,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Select hotel filters" id="Kkd-oh-Evl">
+                        <barButtonItem key="backBarButtonItem" title=" " id="hl8-B7-bzJ"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="v7a-jk-OPA">
                             <connections>
                                 <action selector="dismissWithSender:" destination="cIZ-1D-rMf" id="tDU-qd-Lz0"/>
@@ -194,7 +198,7 @@
                             </barButtonItem>
                             <barButtonItem title="Sort" id="Xjt-gD-deI">
                                 <connections>
-                                    <segue destination="7ab-sq-2R9" kind="presentation" identifier="select_sort" id="c7p-Es-yfb"/>
+                                    <action selector="sortActionWithSender:" destination="mfQ-fo-jKR" id="DAp-U2-Ypp"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
