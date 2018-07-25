@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		174160E42108348F00CF67F2 /* UIImageView+Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174160E12108348F00CF67F2 /* UIImageView+Cache.swift */; };
+		174160E52108348F00CF67F2 /* UIColor+BrandColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174160E22108348F00CF67F2 /* UIColor+BrandColors.swift */; };
+		174160E62108348F00CF67F2 /* UIFont+BrandFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174160E32108348F00CF67F2 /* UIFont+BrandFonts.swift */; };
 		F222BCD61E81E72500CE0EB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F222BCD51E81E72500CE0EB2 /* AppDelegate.swift */; };
 		F222BCD81E81E72500CE0EB2 /* SearchFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F222BCD71E81E72500CE0EB2 /* SearchFormViewController.swift */; };
 		F222BCDB1E81E72500CE0EB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F222BCD91E81E72500CE0EB2 /* Main.storyboard */; };
@@ -30,6 +33,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		174160E12108348F00CF67F2 /* UIImageView+Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+Cache.swift"; sourceTree = "<group>"; };
+		174160E22108348F00CF67F2 /* UIColor+BrandColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+BrandColors.swift"; sourceTree = "<group>"; };
+		174160E32108348F00CF67F2 /* UIFont+BrandFonts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+BrandFonts.swift"; sourceTree = "<group>"; };
 		F222BCD21E81E72500CE0EB2 /* Hotelzzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hotelzzz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F222BCD51E81E72500CE0EB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F222BCD71E81E72500CE0EB2 /* SearchFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFormViewController.swift; sourceTree = "<group>"; };
@@ -64,6 +70,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		174160E02108348F00CF67F2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				174160E12108348F00CF67F2 /* UIImageView+Cache.swift */,
+				174160E22108348F00CF67F2 /* UIColor+BrandColors.swift */,
+				174160E32108348F00CF67F2 /* UIFont+BrandFonts.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		F222BCC91E81E72400CE0EB2 = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +111,7 @@
 				F222BCDE1E81E72500CE0EB2 /* LaunchScreen.storyboard */,
 				F222BCE11E81E72500CE0EB2 /* Info.plist */,
 				F27251341E95A60E00222BC8 /* UIViewController+Extensions.swift */,
+				174160E02108348F00CF67F2 /* Extensions */,
 			);
 			path = Hotelzzz;
 			sourceTree = "<group>";
@@ -218,9 +235,12 @@
 				F222BCD81E81E72500CE0EB2 /* SearchFormViewController.swift in Sources */,
 				F222BCD61E81E72500CE0EB2 /* AppDelegate.swift in Sources */,
 				F222BCF81E83175000CE0EB2 /* SearchViewController.swift in Sources */,
+				174160E62108348F00CF67F2 /* UIFont+BrandFonts.swift in Sources */,
 				F222BCF61E830D4C00CE0EB2 /* DatePickerViewController.swift in Sources */,
 				F27251351E95A60E00222BC8 /* UIViewController+Extensions.swift in Sources */,
+				174160E52108348F00CF67F2 /* UIColor+BrandColors.swift in Sources */,
 				F222BCFA1E83235F00CE0EB2 /* HotelViewController.swift in Sources */,
+				174160E42108348F00CF67F2 /* UIImageView+Cache.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

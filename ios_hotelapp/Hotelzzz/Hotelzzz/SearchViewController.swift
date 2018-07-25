@@ -38,9 +38,27 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
             ])
         }
     }
-
+    
+    struct Hotels {
+        let hotel: Hotel
+        let price: Int
+    }
+    
+    struct Hotel {
+        let id: Int
+        let imageURL, name, address: String
+    }
+    
     private var _searchToRun: Search?
-
+    private var _selectedHotel: Hotels?
+    
+    var price = 0
+    var hotelDictionary = [String: AnyObject]()
+    var id: Int = 0
+    var address: String = ""
+    var name: String = ""
+    var imageURL: String = ""
+    
     lazy var webView: WKWebView = {
         let webView = WKWebView(frame: CGRect.zero, configuration: {
             let config = WKWebViewConfiguration()
@@ -50,6 +68,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
                 // DECLARE YOUR MESSAGE HANDLERS HERE
                 userContentController.add(self, name: "API_READY")
                 userContentController.add(self, name: "HOTEL_API_HOTEL_SELECTED")
+                userContentController.add(self, name: "HOTEL_API_RESULTS_READY")
 
                 return userContentController
             }()
@@ -74,7 +93,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         alertController.addAction(UIAlertAction(title: NSLocalizedString("Bummer", comment: ""), style: .default, handler: nil))
         self.navigationController?.present(alertController, animated: true, completion: nil)
     }
-
+    
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         switch message.name {
         case "API_READY":
@@ -83,8 +102,54 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
                 "window.JSAPI.runHotelSearch(\(searchToRun.asJSONString))",
                 completionHandler: nil)
         case "HOTEL_API_HOTEL_SELECTED":
+            if let selectedHotel = message.body as? Dictionary<String, AnyObject> {
+                for (_, value) in selectedHotel {
+                    print("result: \(value)")
+                    
+                    _selectedHotel = value as? SearchViewController.Hotels
+                    print("_selectedHotel: \(String(describing: _selectedHotel))")
+                    
+                    for (key, value) in (value as? Dictionary<String, AnyObject>)! {
+                        switch key {
+                        case "price":
+                            price = value as! Int
+                        case "hotel":
+                            hotelDictionary = value as! [String: AnyObject]
+                            address = hotelDictionary["address"] as! String
+                            name = hotelDictionary["name"] as! String
+                            id = hotelDictionary["id"] as! Int
+                            imageURL = hotelDictionary["imageURL"] as! String
+                        default:
+                            print("default value")
+                        }
+                    }
+                }
+            }
+            
             self.performSegue(withIdentifier: "hotel_details", sender: nil)
+            
+            
+        case "HOTEL_API_RESULTS_READY":
+             if let hotelResults = message.body as? Dictionary<String, AnyObject> {
+//                print("hotelResults: \(hotelResults)")
+                for (_, value) in hotelResults {
+                    print("value: \(value)")
+                }
+            }
         default: break
+        }
+    }
+    
+    // MARK: - Segues
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "hotel_details" {
+            let controller = segue.destination as! HotelViewController
+            controller.hotelName = name
+            controller.hotelId = id
+            controller.hotelPrice = price
+            controller.hotelAddress = address
+            controller.hotelImageURL = imageURL
         }
     }
 }
