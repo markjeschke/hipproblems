@@ -110,9 +110,7 @@
                             <constraint firstItem="adv-mj-jZX" firstAttribute="top" secondItem="cxL-25-x7E" secondAttribute="bottom" constant="8" id="xkY-WX-Kj3"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Hotelzzz" id="gd7-1d-975">
-                        <barButtonItem key="backBarButtonItem" title=" " id="tch-8f-TFd"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Hotelzzz" id="gd7-1d-975"/>
                     <connections>
                         <outlet property="locationField" destination="4it-RC-WFO" id="gI0-93-4E8"/>
                         <outlet property="openDateEndPickerButton" destination="zeC-8W-8hU" id="xV5-Qk-eDS"/>

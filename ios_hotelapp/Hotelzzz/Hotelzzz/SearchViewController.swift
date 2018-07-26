@@ -138,12 +138,11 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         case "HOTEL_API_RESULTS_READY":
              if let hotelResults = message.body as? Dictionary<String, AnyObject> {
                 for (_, value) in hotelResults {
-                    var resultPlural = "result"
+                    var hotelCountPlural = "hotel"
                     if value.count != 1 {
-                        resultPlural = resultPlural+"s"
+                        hotelCountPlural = hotelCountPlural+"s"
                     }
-                    title = "\(String(value.count)) \(resultPlural)"
-//                    insertContentsOfCSSFile(into: self.webView)
+                    title = "\(String(value.count)) \(hotelCountPlural)"
                 }
             }
         default: break
@@ -170,6 +169,13 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         let cssString = try! String(contentsOfFile: path).trimmingCharacters(in: .whitespacesAndNewlines)
         let jsString = "var style = document.createElement('style'); style.innerHTML = '\(cssString)'; document.head.appendChild(style);"
         webView.evaluateJavaScript(jsString, completionHandler: nil)
-        print("inject CSS")
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
+    }
+    
 }

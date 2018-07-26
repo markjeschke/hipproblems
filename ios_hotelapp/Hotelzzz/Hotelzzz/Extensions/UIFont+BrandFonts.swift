@@ -17,6 +17,10 @@ public extension UIFont {
         return montserratBold(size:size)
     }
     
+    @objc public static func brandSemiBoldFont(size: CGFloat) -> UIFont {
+        return montserratSemiBold(size:size)
+    }
+    
     @objc public static func brandLightFont(size: CGFloat) -> UIFont {
         return montserratLight(size:size)
     }
@@ -30,6 +34,13 @@ public extension UIFont {
     
     public static func montserratBold(size: CGFloat) -> UIFont {
         if let font = UIFont(name: "Montserrat-Bold", size: size) {
+            return font
+        }
+        return UIFont.boldSystemFont(ofSize: size)
+    }
+    
+    public static func montserratSemiBold(size: CGFloat) -> UIFont {
+        if let font = UIFont(name: "Montserrat-SemiBold", size: size) {
             return font
         }
         return UIFont.boldSystemFont(ofSize: size)

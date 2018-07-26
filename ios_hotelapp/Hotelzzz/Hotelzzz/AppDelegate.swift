@@ -16,15 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        for family: String in UIFont.familyNames
-        {
-            print("\(family)")
-            for names: String in UIFont.fontNames(forFamilyName: family)
-            {
-                print("== \(names)")
-            }
-        }
-        
         customizeAppearance()
         return true
     }
@@ -33,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let navTitleAttributes = [
             NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
-            NSAttributedStringKey.font : UIFont.brandBoldFont(size: 18.0)
+            NSAttributedStringKey.font : UIFont.brandSemiBoldFont(size: 18.0)
         ]
         
         let largeTitleAttributes = [
@@ -42,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ]
         
         let navBackTitleAttributes = [
-            NSAttributedStringKey.foregroundColor: UIColor.secondaryBrandColor,
+            NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
             NSAttributedStringKey.font: UIFont.brandRegularFont(size: 16.0)
         ]
         
@@ -50,7 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         navBarAppearance.tintColor = .primaryBrandColor
         navBarAppearance.titleTextAttributes = navTitleAttributes
         if #available(iOS 11.0, *) {
-            navBarAppearance.prefersLargeTitles = true
             navBarAppearance.largeTitleTextAttributes = largeTitleAttributes
         }
         
