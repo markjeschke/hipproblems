@@ -199,6 +199,7 @@
                             <barButtonItem title="Sort" id="Xjt-gD-deI">
                                 <connections>
                                     <action selector="sortActionWithSender:" destination="mfQ-fo-jKR" id="DAp-U2-Ypp"/>
+                                    <segue destination="7ab-sq-2R9" kind="presentation" id="IKn-Cw-CWD"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -254,6 +255,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eJY-oy-IyG">
                                 <rect key="frame" x="87" y="418" width="200" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.20000000000000001" green="0.58039215686274503" blue="0.87058823529411766" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

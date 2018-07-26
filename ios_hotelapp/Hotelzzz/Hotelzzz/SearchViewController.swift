@@ -66,18 +66,19 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     var address: String = ""
     var name: String = ""
     var imageURL: String = ""
-    
+
     lazy var webView: WKWebView = {
         let webView = WKWebView(frame: CGRect.zero, configuration: {
+            let jScript = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no'); document.getElementsByTagName('head')[0].appendChild(meta);"
+            let wkUScript = WKUserScript(source:jScript, injectionTime:.atDocumentEnd, forMainFrameOnly:true)
             let config = WKWebViewConfiguration()
             config.userContentController = {
                 let userContentController = WKUserContentController()
-
+                userContentController.addUserScript(wkUScript)
                 // DECLARE YOUR MESSAGE HANDLERS HERE
                 userContentController.add(self, name: "API_READY")
                 userContentController.add(self, name: "HOTEL_API_HOTEL_SELECTED")
                 userContentController.add(self, name: "HOTEL_API_RESULTS_READY")
-                userContentController.add(self, name: "HOTEL_API_HOTEL_SORTED")
 
                 return userContentController
             }()
@@ -142,14 +143,9 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
                         resultPlural = resultPlural+"s"
                     }
                     title = "\(String(value.count)) \(resultPlural)"
+//                    insertContentsOfCSSFile(into: self.webView)
                 }
             }
-        case "HOTEL_API_HOTEL_SORTED":
-            let sortId = SortId.priceAscend
-            self.webView.evaluateJavaScript(
-                "window.JSAPI.setHotelSort(\(sortId))",
-                completionHandler: nil)
-            print("priceAscend")
         default: break
         }
     }
@@ -163,5 +159,17 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
             controller.hotelAddress = address
             controller.hotelImageURL = imageURL
         }
+    }
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        insertContentsOfCSSFile(into: webView)
+    }
+    
+    func insertContentsOfCSSFile(into webView: WKWebView) {
+        guard let path = Bundle.main.path(forResource: "styles", ofType: "css") else { return }
+        let cssString = try! String(contentsOfFile: path).trimmingCharacters(in: .whitespacesAndNewlines)
+        let jsString = "var style = document.createElement('style'); style.innerHTML = '\(cssString)'; document.head.appendChild(style);"
+        webView.evaluateJavaScript(jsString, completionHandler: nil)
+        print("inject CSS")
     }
 }

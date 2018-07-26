@@ -15,8 +15,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        for family: String in UIFont.familyNames
+        {
+            print("\(family)")
+            for names: String in UIFont.fontNames(forFamilyName: family)
+            {
+                print("== \(names)")
+            }
+        }
+        
+        customizeAppearance()
         return true
+    }
+    
+    private func customizeAppearance() {
+        
+        let navTitleAttributes = [
+            NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
+            NSAttributedStringKey.font : UIFont.brandBoldFont(size: 18.0)
+        ]
+        
+        let largeTitleAttributes = [
+            NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
+            NSAttributedStringKey.font : UIFont.brandRegularFont(size: 35.0)
+        ]
+        
+        let navBackTitleAttributes = [
+            NSAttributedStringKey.foregroundColor: UIColor.secondaryBrandColor,
+            NSAttributedStringKey.font: UIFont.brandRegularFont(size: 16.0)
+        ]
+        
+        let navBarAppearance = UINavigationBar.appearance()
+        navBarAppearance.tintColor = .primaryBrandColor
+        navBarAppearance.titleTextAttributes = navTitleAttributes
+        if #available(iOS 11.0, *) {
+            navBarAppearance.prefersLargeTitles = true
+            navBarAppearance.largeTitleTextAttributes = largeTitleAttributes
+        }
+        
+        let barButtonAppearance = UIBarButtonItem.appearance()
+        barButtonAppearance.setTitleTextAttributes(navBackTitleAttributes, for: .normal)
+        barButtonAppearance.setTitleTextAttributes(navBackTitleAttributes, for: .highlighted)
+        
+        UITabBar.appearance().tintColor = .primaryBrandColor
+        UIButton.appearance().tintColor = .primaryBrandColor
+        UILabel.appearance().backgroundColor = .clear
+        
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
