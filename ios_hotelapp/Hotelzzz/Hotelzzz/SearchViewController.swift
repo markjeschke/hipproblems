@@ -55,6 +55,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     fileprivate var address: String = ""
     fileprivate var name: String = ""
     fileprivate var imageURL: String = ""
+    fileprivate var priceDictionary = [String: AnyObject]()
 
     lazy var webView: WKWebView = {
         let webView = WKWebView(frame: CGRect.zero, configuration: {
@@ -186,7 +187,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
                             name = hotelDictionary["name"] as! String
                             imageURL = hotelDictionary["imageURL"] as! String
                         default:
-                            print("default value")
+                            break
                         }
                     }
                 }
