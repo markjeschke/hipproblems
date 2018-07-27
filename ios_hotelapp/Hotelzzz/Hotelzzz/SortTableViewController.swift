@@ -25,6 +25,8 @@ class SortTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "Sort Hotels by:"
+        
         tableView.tableFooterView = UIView(frame: .zero)
 
         let navButtonAttributes = [
@@ -32,18 +34,11 @@ class SortTableViewController: UITableViewController {
             NSAttributedStringKey.font : UIFont.brandBoldFont(size: 15.0)
         ]
         
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissModalView))
-        doneButton.setTitleTextAttributes(navButtonAttributes, for: .normal)
-        doneButton.setTitleTextAttributes(navButtonAttributes, for: .selected)
-        doneButton.accessibilityLabel = "Done"
-        doneButton.accessibilityIdentifier = "doneButton"
-        navigationItem.rightBarButtonItem = doneButton
-        
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissModalView))
-        doneButton.setTitleTextAttributes(navButtonAttributes, for: .normal)
-        doneButton.setTitleTextAttributes(navButtonAttributes, for: .selected)
-        doneButton.accessibilityLabel = "Cancel"
-        doneButton.accessibilityIdentifier = "cancelButton"
+        cancelButton.setTitleTextAttributes(navButtonAttributes, for: .normal)
+        cancelButton.setTitleTextAttributes(navButtonAttributes, for: .selected)
+        cancelButton.accessibilityLabel = "Cancel"
+        cancelButton.accessibilityIdentifier = "cancelButton"
         navigationItem.leftBarButtonItem = cancelButton
     }
     
@@ -63,13 +58,8 @@ class SortTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-
-        let row = indexPath.row
-        let rowDataKey = typeList[row]
-        
+        let rowDataKey = typeList[indexPath.row]
         cell.textLabel?.text = rowDataKey
-        cell.detailTextLabel?.text = sortOptionsDictionary[rowDataKey]
-
         return cell
     }
     
