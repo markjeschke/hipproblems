@@ -9,4 +9,4 @@
 import Foundation
 
 public let notificationSortOrderKey = "updateSortOrder"
-public let notificationFilterOrderKey = "updateFilterOrder"
+public let notificationPriceFilterKey = "updatePriceFilter"

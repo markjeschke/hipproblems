@@ -159,10 +159,10 @@
             </objects>
             <point key="canvasLocation" x="2450" y="-656"/>
         </scene>
-        <!--Select hotel filters-->
+        <!--Filters-->
         <scene sceneID="bkW-2h-LaA">
             <objects>
-                <viewController id="cIZ-1D-rMf" sceneMemberID="viewController">
+                <viewController id="cIZ-1D-rMf" customClass="FilterViewController" customModule="Hotelzzz" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kd1-wR-CGV"/>
                         <viewControllerLayoutGuide type="bottom" id="mcT-pb-YxW"/>
@@ -170,9 +170,60 @@
                     <view key="view" contentMode="scaleToFill" id="q2P-9E-9Jp">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="ZUH-DA-tN9">
+                                <rect key="frame" x="56" y="227" width="262" height="31"/>
+                                <connections>
+                                    <action selector="updatePriceLabelAction:" destination="cIZ-1D-rMf" eventType="valueChanged" id="cvG-73-fhF"/>
+                                </connections>
+                            </slider>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="PEM-u2-QC3">
+                                <rect key="frame" x="41" y="285" width="293" height="20.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ogn-S8-DXu">
+                                        <rect key="frame" x="0.0" y="0.0" width="97.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mz5-4n-1bB">
+                                        <rect key="frame" x="97.5" y="0.0" width="98" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.30196078430000001" green="0.30196078430000001" blue="0.30196078430000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Evu-UB-Arm">
+                                        <rect key="frame" x="195.5" y="0.0" width="97.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8PT-om-pkG">
+                                <rect key="frame" x="41" y="170" width="293" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="29" id="MTp-Zm-69u"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8PT-om-pkG" firstAttribute="top" secondItem="kd1-wR-CGV" secondAttribute="bottom" constant="106" id="3cm-3n-9KY"/>
+                            <constraint firstItem="ZUH-DA-tN9" firstAttribute="top" secondItem="8PT-om-pkG" secondAttribute="bottom" constant="28" id="3xX-xA-fmC"/>
+                            <constraint firstItem="PEM-u2-QC3" firstAttribute="top" secondItem="ZUH-DA-tN9" secondAttribute="bottom" constant="28" id="Dbr-q8-PKf"/>
+                            <constraint firstItem="ZUH-DA-tN9" firstAttribute="leading" secondItem="q2P-9E-9Jp" secondAttribute="leadingMargin" constant="42" id="IWM-O8-bS9"/>
+                            <constraint firstItem="8PT-om-pkG" firstAttribute="trailing" secondItem="PEM-u2-QC3" secondAttribute="trailing" id="JAK-iL-x2W"/>
+                            <constraint firstItem="8PT-om-pkG" firstAttribute="leading" secondItem="q2P-9E-9Jp" secondAttribute="leadingMargin" constant="25" id="OGQ-se-2aa"/>
+                            <constraint firstItem="ZUH-DA-tN9" firstAttribute="centerX" secondItem="q2P-9E-9Jp" secondAttribute="centerX" id="U6d-cx-5yy"/>
+                            <constraint firstItem="8PT-om-pkG" firstAttribute="leading" secondItem="PEM-u2-QC3" secondAttribute="leading" id="k43-Yd-Buc"/>
+                            <constraint firstItem="ZUH-DA-tN9" firstAttribute="centerX" secondItem="PEM-u2-QC3" secondAttribute="centerX" id="ole-l4-53a"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Select hotel filters" id="Kkd-oh-Evl">
+                    <navigationItem key="navigationItem" title="Filters" id="Kkd-oh-Evl">
                         <barButtonItem key="backBarButtonItem" title=" " id="hl8-B7-bzJ"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="v7a-jk-OPA">
                             <connections>
@@ -180,10 +231,17 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="averagePriceLabel" destination="mz5-4n-1bB" id="tR8-8o-ouY"/>
+                        <outlet property="priceFilterSlider" destination="ZUH-DA-tN9" id="0Fq-2j-jjz"/>
+                        <outlet property="priceMaxLabel" destination="Evu-UB-Arm" id="ssa-43-4Hj"/>
+                        <outlet property="priceMinLabel" destination="ogn-S8-DXu" id="fpP-Au-U34"/>
+                        <outlet property="pricePerNightLabel" destination="8PT-om-pkG" id="tfh-WA-ElV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rab-A5-nXD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2449" y="-2"/>
+            <point key="canvasLocation" x="2448.8000000000002" y="-2.2488755622188905"/>
         </scene>
         <!--Searching...-->
         <scene sceneID="eSi-zF-Gld">

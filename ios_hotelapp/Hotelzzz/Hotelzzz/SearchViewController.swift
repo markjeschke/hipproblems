@@ -55,9 +55,6 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     fileprivate var address: String = ""
     fileprivate var name: String = ""
     fileprivate var imageURL: String = ""
-    fileprivate var frameSize = CGRect()
-    fileprivate let progressView = UIProgressView(progressViewStyle: .bar)
-    fileprivate var webViewIsInited = false
 
     lazy var webView: WKWebView = {
         let webView = WKWebView(frame: CGRect.zero, configuration: {
@@ -86,14 +83,32 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // NSNotification observe for capturing the lat and long from the MapViewController.
+        // NSNotification observed for capturing sort order and price filter keys.
         let nc = NotificationCenter.default
-        nc.addObserver(forName:NSNotification.Name(rawValue: notificationSortOrderKey), object:nil, queue:nil, using: catchNotification)
+        nc.addObserver(forName:NSNotification.Name(rawValue: notificationSortOrderKey), object:nil, queue:nil, using: catchSortOrderNotification)
+        nc.addObserver(forName:NSNotification.Name(rawValue: notificationPriceFilterKey), object:nil, queue:nil, using: catchPriceFilterNotification)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        }
+    }
+    
+    // MARK: - Segue to HotelViewController
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "hotel_details" {
+            let controller = segue.destination as! HotelViewController
+            controller.hotelName = name
+            controller.hotelPrice = price
+            controller.hotelAddress = address
+            controller.hotelImageURL = imageURL
+        }
     }
     
     // MARK: Catch NSNotifications
-    @objc func catchNotification(notification:Notification) -> Void {
+    @objc func catchSortOrderNotification(notification:Notification) -> Void {
         guard
             let userInfo = notification.userInfo,
             let sortOrder = userInfo["sortOrder"] as? String
@@ -104,17 +119,39 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         selectSortId(sortBy: sortOrder)
     }
     
-    // Remove the NSNotifications observer.
+    @objc func catchPriceFilterNotification(notification:Notification) -> Void {
+        guard
+            let userInfo = notification.userInfo,
+            let priceMin = userInfo["priceMin"] as? Int,
+            let priceMax = userInfo["priceMax"] as? Int
+            else {
+                assert(false, "No userInfo found in notification")
+                return
+        }
+        setPrice(min: priceMin, max: priceMax)
+    }
+    
+    // Remove the NSNotifications observers.
     deinit {
-        NotificationCenter.default.removeObserver(self,
-                                                  name: NSNotification.Name(rawValue: notificationSortOrderKey),
-                                                  object: nil)
+        let notificationKeys = [notificationSortOrderKey, notificationPriceFilterKey]
+        for key in notificationKeys {
+            NotificationCenter.default.removeObserver(self,
+                                                      name: NSNotification.Name(rawValue: key),
+                                                      object: nil)
+        }
     }
     
     func selectSortId(sortBy: String = "priceDescend") {
-        self.webView.evaluateJavaScript("window.JSAPI.setHotelSort(\"\(sortBy)\")",
+        self.webView.evaluateJavaScript("window.JSAPI.setHotelSort(\"\(sortBy)\");",
             completionHandler: nil)
-        print("detail from hotelSort: \(sortBy)")
+    }
+    
+    func setPrice(min: Int, max: Int) {
+        var setHotelFilters = "window.JSAPI.setHotelFilters({priceMin: \(min), priceMax: \(max)});"
+        if max == -1 {
+            setHotelFilters = "window.JSAPI.setHotelFilters({priceMin: \(min), priceMax: null});"
+        }
+        self.webView.evaluateJavaScript(setHotelFilters, completionHandler: nil)
     }
 
     func search(location: String, dateStart: Date, dateEnd: Date) {
@@ -170,33 +207,8 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         }
     }
     
-    // MARK: - Segue to HotelViewController
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "hotel_details" {
-            let controller = segue.destination as! HotelViewController
-            controller.hotelName = name
-            controller.hotelPrice = price
-            controller.hotelAddress = address
-            controller.hotelImageURL = imageURL
-        }
-    }
-    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         insertContentsOfCSSFile(into: webView)
-        
-        if !webView.isLoading {
-            UIView.animate(withDuration: 0.5, animations: { [unowned self] in
-                webView.alpha = 1.0
-                if webView.estimatedProgress == 1.0 {
-                    self.progressView.alpha = 1.0
-                }
-            }, completion: { _ in
-                webView.scrollView.showsVerticalScrollIndicator = true
-                webView.scrollView.flashScrollIndicators()
-                webView.scrollView.indicatorStyle = .black
-                UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            })
-        }
     }
     
     func insertContentsOfCSSFile(into webView: WKWebView) {
@@ -204,13 +216,6 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         let cssString = try! String(contentsOfFile: path).trimmingCharacters(in: .whitespacesAndNewlines)
         let jsString = "var style = document.createElement('style'); style.innerHTML = '\(cssString)'; document.head.appendChild(style);"
         webView.evaluateJavaScript(jsString, completionHandler: nil)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if #available(iOS 11.0, *) {
-            navigationItem.largeTitleDisplayMode = .never
-        }
     }
     
 }
