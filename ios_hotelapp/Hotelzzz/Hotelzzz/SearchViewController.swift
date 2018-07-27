@@ -37,26 +37,23 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         }
     }
     
-    struct Hotels {
-        let hotel: Hotel
-        let price: Int
-    }
-    
-    struct Hotel {
-        let id: Int
-        let imageURL, name, address: String
-    }
+//    struct Hotels {
+//        let hotel: Hotel
+//        let price: Int
+//    }
+//    struct Hotel {
+//        let id: Int
+//        let imageURL, name, address: String
+//    }
     
     fileprivate  var _searchToRun: Search?
-    fileprivate  var _selectedHotel: Hotels?
-    
+    fileprivate let notificationKeys = [notificationSortOrderKey, notificationPriceFilterKey]
     fileprivate var price = 0
     fileprivate var hotelDictionary = [String: AnyObject]()
     fileprivate var address: String = ""
     fileprivate var name: String = ""
     fileprivate var imageURL: String = ""
-    fileprivate var priceDictionary = [String: AnyObject]()
-
+    
     lazy var webView: WKWebView = {
         let webView = WKWebView(frame: CGRect.zero, configuration: {
             let jScript = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no'); document.getElementsByTagName('head')[0].appendChild(meta);"
@@ -134,7 +131,6 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     
     // Remove the NSNotifications observers.
     deinit {
-        let notificationKeys = [notificationSortOrderKey, notificationPriceFilterKey]
         for key in notificationKeys {
             NotificationCenter.default.removeObserver(self,
                                                       name: NSNotification.Name(rawValue: key),
@@ -142,7 +138,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         }
     }
     
-    func selectSortId(sortBy: String = "priceDescend") {
+    func selectSortId(sortBy: String) {
         self.webView.evaluateJavaScript("window.JSAPI.setHotelSort(\"\(sortBy)\");",
             completionHandler: nil)
     }
