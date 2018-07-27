@@ -121,31 +121,50 @@
             </objects>
             <point key="canvasLocation" x="-266" y="-24"/>
         </scene>
-        <!--Select hotel sort-->
-        <scene sceneID="mh3-Cf-Las">
+        <!--Sort Table View Controller-->
+        <scene sceneID="8bg-oK-FHa">
             <objects>
-                <viewController id="FPC-mT-DqL" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="mMd-bS-xwf"/>
-                        <viewControllerLayoutGuide type="bottom" id="mh3-fF-0pC"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="EVe-IB-NxI">
+                <tableViewController id="5Ik-4z-YXK" customClass="SortTableViewController" customModule="Hotelzzz" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="8zl-eq-x7k">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Select hotel sort" id="Pwl-3H-5Qg">
-                        <barButtonItem key="backBarButtonItem" title=" " id="v5O-Gd-NBc"/>
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="43f-hx-Bg0">
-                            <connections>
-                                <action selector="dismissWithSender:" destination="FPC-mT-DqL" id="Ttg-CO-V0Y"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Bp3-vB-aZc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="yuR-K7-gSx" detailTextLabel="N7z-lk-1bQ" style="IBUITableViewCellStyleValue1" id="ly5-Es-DJZ">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ly5-Es-DJZ" id="Oz2-bc-7TL">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yuR-K7-gSx">
+                                            <rect key="frame" x="16" y="12" width="33.5" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="N7z-lk-1bQ">
+                                            <rect key="frame" x="315" y="12" width="44" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="5Ik-4z-YXK" id="Ote-iM-HW7"/>
+                            <outlet property="delegate" destination="5Ik-4z-YXK" id="LaP-Bp-3ig"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="ZIS-A1-lPU"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jx0-cx-fTV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2478" y="-656"/>
+            <point key="canvasLocation" x="2450" y="-656"/>
         </scene>
         <!--Select hotel filters-->
         <scene sceneID="bkW-2h-LaA">
@@ -171,7 +190,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rab-A5-nXD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2478" y="-2"/>
+            <point key="canvasLocation" x="2449" y="-2"/>
         </scene>
         <!--Searching...-->
         <scene sceneID="eSi-zF-Gld">
@@ -197,7 +216,7 @@
                             <barButtonItem title="Sort" id="Xjt-gD-deI">
                                 <connections>
                                     <action selector="sortActionWithSender:" destination="mfQ-fo-jKR" id="DAp-U2-Ypp"/>
-                                    <segue destination="7ab-sq-2R9" kind="presentation" id="IKn-Cw-CWD"/>
+                                    <segue destination="7ab-sq-2R9" kind="presentation" identifier="showSort" id="IKn-Cw-CWD"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -369,7 +388,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="FPC-mT-DqL" kind="relationship" relationship="rootViewController" id="47n-sE-dk4"/>
+                        <segue destination="5Ik-4z-YXK" kind="relationship" relationship="rootViewController" id="aPd-cb-Igj"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="65e-tC-Iz8" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -17,6 +17,9 @@
 		174160F32109380200CF67F2 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 174160ED2109380200CF67F2 /* Montserrat-SemiBold.ttf */; };
 		174160F42109380200CF67F2 /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 174160EE2109380200CF67F2 /* fontawesome-webfont.ttf */; };
 		174160F52109380200CF67F2 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 174160EF2109380200CF67F2 /* Montserrat-Regular.ttf */; };
+		174160F7210A50DA00CF67F2 /* SortTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174160F6210A50DA00CF67F2 /* SortTableViewController.swift */; };
+		174160FB210A539400CF67F2 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174160FA210A539400CF67F2 /* FilterViewController.swift */; };
+		174160FD210A9F7600CF67F2 /* NotificationKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174160FC210A9F7600CF67F2 /* NotificationKey.swift */; };
 		F222BCD61E81E72500CE0EB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F222BCD51E81E72500CE0EB2 /* AppDelegate.swift */; };
 		F222BCD81E81E72500CE0EB2 /* SearchFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F222BCD71E81E72500CE0EB2 /* SearchFormViewController.swift */; };
 		F222BCDB1E81E72500CE0EB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F222BCD91E81E72500CE0EB2 /* Main.storyboard */; };
@@ -50,6 +53,9 @@
 		174160ED2109380200CF67F2 /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 		174160EE2109380200CF67F2 /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		174160EF2109380200CF67F2 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		174160F6210A50DA00CF67F2 /* SortTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTableViewController.swift; sourceTree = "<group>"; };
+		174160FA210A539400CF67F2 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		174160FC210A9F7600CF67F2 /* NotificationKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationKey.swift; sourceTree = "<group>"; };
 		F222BCD21E81E72500CE0EB2 /* Hotelzzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hotelzzz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F222BCD51E81E72500CE0EB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F222BCD71E81E72500CE0EB2 /* SearchFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFormViewController.swift; sourceTree = "<group>"; };
@@ -129,9 +135,12 @@
 			isa = PBXGroup;
 			children = (
 				F222BCD51E81E72500CE0EB2 /* AppDelegate.swift */,
+				174160FC210A9F7600CF67F2 /* NotificationKey.swift */,
 				F222BCD71E81E72500CE0EB2 /* SearchFormViewController.swift */,
 				F222BCF51E830D4C00CE0EB2 /* DatePickerViewController.swift */,
 				F222BCF71E83175000CE0EB2 /* SearchViewController.swift */,
+				174160F6210A50DA00CF67F2 /* SortTableViewController.swift */,
+				174160FA210A539400CF67F2 /* FilterViewController.swift */,
 				174160E72109257B00CF67F2 /* styles.css */,
 				F222BCF91E83235F00CE0EB2 /* HotelViewController.swift */,
 				F222BCD91E81E72500CE0EB2 /* Main.storyboard */,
@@ -269,11 +278,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F222BCD81E81E72500CE0EB2 /* SearchFormViewController.swift in Sources */,
+				174160F7210A50DA00CF67F2 /* SortTableViewController.swift in Sources */,
 				F222BCD61E81E72500CE0EB2 /* AppDelegate.swift in Sources */,
 				F222BCF81E83175000CE0EB2 /* SearchViewController.swift in Sources */,
 				174160E62108348F00CF67F2 /* UIFont+BrandFonts.swift in Sources */,
 				F222BCF61E830D4C00CE0EB2 /* DatePickerViewController.swift in Sources */,
+				174160FB210A539400CF67F2 /* FilterViewController.swift in Sources */,
 				F27251351E95A60E00222BC8 /* UIViewController+Extensions.swift in Sources */,
+				174160FD210A9F7600CF67F2 /* NotificationKey.swift in Sources */,
 				174160E52108348F00CF67F2 /* UIColor+BrandColors.swift in Sources */,
 				F222BCFA1E83235F00CE0EB2 /* HotelViewController.swift in Sources */,
 				174160E42108348F00CF67F2 /* UIImageView+Cache.swift in Sources */,

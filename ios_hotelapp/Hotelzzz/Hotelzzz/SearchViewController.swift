@@ -10,12 +10,6 @@ import Foundation
 import WebKit
 import UIKit
 
-enum SortId: String {
-    case sortByName = "name"
-    case priceAscend = "priceAscend"
-    case priceDescend = "priceDescend"
-}
-
 private let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateFormat = "YYYY-mm-dd"
@@ -27,12 +21,7 @@ private func jsonStringify(_ obj: [AnyHashable: Any]) -> String {
     return String(data: data, encoding: .utf8)!
 }
 
-
 class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate  {
-    
-    @IBAction func sortAction(sender: Any?) {
-        selectSortId(sortBy: SortId.sortByName.rawValue)
-    }
 
     struct Search {
         let location: String
@@ -58,14 +47,17 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         let imageURL, name, address: String
     }
     
-    private var _searchToRun: Search?
-    private var _selectedHotel: Hotels?
+    fileprivate  var _searchToRun: Search?
+    fileprivate  var _selectedHotel: Hotels?
     
-    var price = 0
-    var hotelDictionary = [String: AnyObject]()
-    var address: String = ""
-    var name: String = ""
-    var imageURL: String = ""
+    fileprivate var price = 0
+    fileprivate var hotelDictionary = [String: AnyObject]()
+    fileprivate var address: String = ""
+    fileprivate var name: String = ""
+    fileprivate var imageURL: String = ""
+    fileprivate var frameSize = CGRect()
+    fileprivate let progressView = UIProgressView(progressViewStyle: .bar)
+    fileprivate var webViewIsInited = false
 
     lazy var webView: WKWebView = {
         let webView = WKWebView(frame: CGRect.zero, configuration: {
@@ -92,9 +84,37 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         return webView
     }()
     
-    fileprivate func selectSortId(sortBy: String) {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // NSNotification observe for capturing the lat and long from the MapViewController.
+        let nc = NotificationCenter.default
+        nc.addObserver(forName:NSNotification.Name(rawValue: notificationSortOrderKey), object:nil, queue:nil, using: catchNotification)
+    }
+    
+    // MARK: Catch NSNotifications
+    @objc func catchNotification(notification:Notification) -> Void {
+        guard
+            let userInfo = notification.userInfo,
+            let sortOrder = userInfo["sortOrder"] as? String
+            else {
+                assert(false, "No userInfo found in notification")
+                return
+        }
+        selectSortId(sortBy: sortOrder)
+    }
+    
+    // Remove the NSNotifications observer.
+    deinit {
+        NotificationCenter.default.removeObserver(self,
+                                                  name: NSNotification.Name(rawValue: notificationSortOrderKey),
+                                                  object: nil)
+    }
+    
+    func selectSortId(sortBy: String = "priceDescend") {
         self.webView.evaluateJavaScript("window.JSAPI.setHotelSort(\"\(sortBy)\")",
             completionHandler: nil)
+        print("detail from hotelSort: \(sortBy)")
     }
 
     func search(location: String, dateStart: Date, dateEnd: Date) {
@@ -145,7 +165,8 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
                     title = "\(String(value.count)) \(hotelCountPlural)"
                 }
             }
-        default: break
+        default:
+            break
         }
     }
     
@@ -162,6 +183,20 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         insertContentsOfCSSFile(into: webView)
+        
+        if !webView.isLoading {
+            UIView.animate(withDuration: 0.5, animations: { [unowned self] in
+                webView.alpha = 1.0
+                if webView.estimatedProgress == 1.0 {
+                    self.progressView.alpha = 1.0
+                }
+            }, completion: { _ in
+                webView.scrollView.showsVerticalScrollIndicator = true
+                webView.scrollView.flashScrollIndicators()
+                webView.scrollView.indicatorStyle = .black
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            })
+        }
     }
     
     func insertContentsOfCSSFile(into webView: WKWebView) {
