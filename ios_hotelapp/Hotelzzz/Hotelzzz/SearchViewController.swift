@@ -36,16 +36,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
             ])
         }
     }
-    
-//    struct Hotels {
-//        let hotel: Hotel
-//        let price: Int
-//    }
-//    struct Hotel {
-//        let id: Int
-//        let imageURL, name, address: String
-//    }
-    
+
     fileprivate  var _searchToRun: Search?
     fileprivate let notificationKeys = [notificationSortOrderKey, notificationPriceFilterKey]
     fileprivate var price = 0

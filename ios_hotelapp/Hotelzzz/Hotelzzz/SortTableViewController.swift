@@ -10,6 +10,8 @@ import UIKit
 
 class SortTableViewController: UITableViewController {
     
+    var currentRowSelection = -1
+    
     let sortOptionsDictionary = [
         "Price – Lowest": "priceAscend",
         "Price – Highest": "priceDescend",
@@ -31,7 +33,7 @@ class SortTableViewController: UITableViewController {
 
         let navButtonAttributes = [
             NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
-            NSAttributedStringKey.font : UIFont.brandBoldFont(size: 15.0)
+            NSAttributedStringKey.font : UIFont.brandRegularFont(size: 15.0)
         ]
         
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissModalView))
@@ -40,6 +42,30 @@ class SortTableViewController: UITableViewController {
         cancelButton.accessibilityLabel = "Cancel"
         cancelButton.accessibilityIdentifier = "cancelButton"
         navigationItem.leftBarButtonItem = cancelButton
+        
+        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveSortOrder))
+        saveButton.setTitleTextAttributes(navButtonAttributes, for: .normal)
+        saveButton.setTitleTextAttributes(navButtonAttributes, for: .selected)
+        saveButton.accessibilityLabel = "Save"
+        saveButton.accessibilityIdentifier = "saveButton"
+        navigationItem.rightBarButtonItem = saveButton
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
+    @objc func saveSortOrder() {
+        if let rowDataValue = sortOptionsDictionary[typeList[currentRowSelection]] {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationSortOrderKey),
+                                            object: nil,
+                                            userInfo: [
+                                                "sortOrder": rowDataValue
+                ])
+        }
+        dismissModalView()
     }
     
     @objc func dismissModalView() {
@@ -60,19 +86,29 @@ class SortTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let rowDataKey = typeList[indexPath.row]
         cell.textLabel?.text = rowDataKey
+        
+        if (currentRowSelection == indexPath.row) {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
+        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
         let row = indexPath.row
-        if let rowDataValue = sortOptionsDictionary[typeList[row]] {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationSortOrderKey),
-                    object: nil,
-                    userInfo: [
-                        "sortOrder": rowDataValue
-                ])
-            dismissModalView()
+        let previousRowSelection = currentRowSelection
+        currentRowSelection = row
+        
+        let oldIndexPath = IndexPath(row: previousRowSelection, section: 0)
+        let newIndexPath = IndexPath(row: currentRowSelection, section: 0)
+        var indexPaths = [oldIndexPath]
+        if oldIndexPath.row != newIndexPath.row {
+            indexPaths.append(newIndexPath)
         }
+        tableView.reloadRows(at: indexPaths, with: UITableViewRowAnimation.fade)
     }
 
 }

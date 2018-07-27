@@ -23,13 +23,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func customizeAppearance() {
         
         let navTitleAttributes = [
-            NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
+            NSAttributedStringKey.foregroundColor: UIColor.secondaryBrandColor,
             NSAttributedStringKey.font : UIFont.brandSemiBoldFont(size: 18.0)
         ]
         
         let largeTitleAttributes = [
             NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
-            NSAttributedStringKey.font : UIFont.brandRegularFont(size: 35.0)
+            NSAttributedStringKey.font : UIFont.brandSemiBoldFont(size: 35.0)
         ]
         
         let navBackTitleAttributes = [

@@ -14,6 +14,6 @@ public extension UIColor {
     }
     
     @objc public class var secondaryBrandColor: UIColor {
-        return UIColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1)
+        return UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
     }
 }
