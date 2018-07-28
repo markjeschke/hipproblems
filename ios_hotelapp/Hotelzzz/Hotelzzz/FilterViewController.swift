@@ -10,11 +10,12 @@ import UIKit
 
 class FilterViewController: UIViewController {
     
-    let minValue = 100
-    let maxValue = 501
-    var newMaxValue = 0
+    var minValue = 100
+    var maxValue = 500
+    var newMaxValue = 501
     var currentPrice = "Any"
     
+    let userDefaults = UserDefaults.standard
 
     @IBOutlet var pricePerNightLabel: UILabel!
     @IBOutlet var priceMinLabel: UILabel!
@@ -23,9 +24,9 @@ class FilterViewController: UIViewController {
     @IBOutlet var priceFilterSlider: UISlider!
     
     @IBAction func updatePriceLabelAction(_ sender: UISlider) {
-        if Int(sender.value) > (maxValue-1) {
+        if Int(sender.value) > maxValue {
             currentPrice = "Any"
-            newMaxValue = -1
+            newMaxValue = (maxValue+1)
         } else {
             currentPrice = "$\(Int(sender.value))"
             newMaxValue = Int(sender.value)
@@ -36,49 +37,74 @@ class FilterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let navButtonAttributes = [
+        let ctaButtonAttributes = [
             NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
-            NSAttributedStringKey.font : UIFont.brandSemiBoldFont(size: 14.0)
+            NSAttributedStringKey.font : UIFont.brandSemiBoldFont(size: 15.0)
         ]
         
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissModalView))
-        cancelButton.setTitleTextAttributes(navButtonAttributes, for: .normal)
-        cancelButton.setTitleTextAttributes(navButtonAttributes, for: .selected)
-        cancelButton.accessibilityLabel = "Cancel"
-        cancelButton.accessibilityIdentifier = "cancelButton"
         navigationItem.leftBarButtonItem = cancelButton
         
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissModalView))
-        doneButton.setTitleTextAttributes(navButtonAttributes, for: .normal)
-        doneButton.setTitleTextAttributes(navButtonAttributes, for: .selected)
-        doneButton.accessibilityLabel = "Done"
-        doneButton.accessibilityIdentifier = "doneButton"
-        navigationItem.rightBarButtonItem = doneButton
+        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveData))
+        saveButton.setTitleTextAttributes(ctaButtonAttributes, for: .normal)
+        saveButton.setTitleTextAttributes(ctaButtonAttributes, for: .selected)
+        navigationItem.rightBarButtonItem = saveButton
         
         priceFilterSlider.minimumValue = Float(minValue)
-        priceFilterSlider.maximumValue = Float(maxValue)
-        priceFilterSlider.value = Float(maxValue)
+        priceFilterSlider.maximumValue = Float(maxValue+1)
+        priceFilterSlider.value = Float(maxValue+1)
         priceFilterSlider.minimumTrackTintColor = .primaryBrandColor
         priceFilterSlider.isContinuous = true
         
         priceMinLabel.text = "$\(minValue)"
-        priceMaxLabel.text = "$\(maxValue-1)"
+        priceMaxLabel.text = "$\(maxValue)"
         averagePriceLabel.text = "Avg. $\(Int(priceFilterSlider.value)/2)"
         pricePerNightLabel.text = "Price per night: \(currentPrice)"
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let grabDefaultsForPriceMax = userDefaults.integer(forKey: "priceMax")
+        if grabDefaultsForPriceMax == -1 {
+            userDefaults.set(minValue, forKey: "priceMin")
+            userDefaults.set(maxValue+1, forKey: "priceMax")
+            print("initialize priceMax = \(grabDefaultsForPriceMax)")
+        } else {
+            newMaxValue = userDefaults.integer(forKey: "priceMax")
+            priceFilterSlider.value = Float(newMaxValue)
+            if newMaxValue > maxValue {
+                currentPrice = "Any"
+            } else {
+                currentPrice = "$\(newMaxValue)"
+            }
+            pricePerNightLabel.text = "Price per night: \(currentPrice)"
+            print("newMaxValue = \(newMaxValue)")
+        }
+    }
+    
     func setPrice() {
+        if newMaxValue == (maxValue+1) {
+            newMaxValue = -1
+        }
+        
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationPriceFilterKey),
                                         object: nil,
                                         userInfo: [
                                             "priceMin": minValue,
                                             "priceMax": newMaxValue
             ])
+        userDefaults.set(minValue, forKey: "priceMin")
+        userDefaults.set(newMaxValue, forKey: "priceMax")
+        print("priceMax from userDefaults: \(userDefaults.integer(forKey: "priceMax"))")
+    }
+    
+    @objc func saveData() {
+        setPrice()
+        dismissModalView()
     }
     
     @objc func dismissModalView() {
-        setPrice()
         self.dismiss(animated: true, completion: nil)
     }
 

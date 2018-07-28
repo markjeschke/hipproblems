@@ -10,51 +10,47 @@ import UIKit
 
 class SortTableViewController: UITableViewController {
     
+    var userDefaults = UserDefaults.standard
+    
     var currentRowSelection = -1
-    
-    let sortOptionsDictionary = [
-        "Price – Lowest": "priceAscend",
-        "Price – Highest": "priceDescend",
-        "Name": "name"
-    ]
-    
+
     var typeList:[String] {
         get {
             return Array(sortOptionsDictionary.keys)
         }
     }
     
+    let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveSortOrder))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if userDefaults.integer(forKey: "sortOrder") == -1 {
+            userDefaults.set(currentRowSelection, forKey: "sortOrder")
+        }
         
         title = "Sort Hotels by:"
         
         tableView.tableFooterView = UIView(frame: .zero)
 
-        let navButtonAttributes = [
+        let ctaButtonAttributes = [
             NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
-            NSAttributedStringKey.font : UIFont.brandRegularFont(size: 15.0)
+            NSAttributedStringKey.font : UIFont.brandSemiBoldFont(size: 15.0)
         ]
         
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissModalView))
-        cancelButton.setTitleTextAttributes(navButtonAttributes, for: .normal)
-        cancelButton.setTitleTextAttributes(navButtonAttributes, for: .selected)
-        cancelButton.accessibilityLabel = "Cancel"
-        cancelButton.accessibilityIdentifier = "cancelButton"
         navigationItem.leftBarButtonItem = cancelButton
         
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveSortOrder))
-        saveButton.setTitleTextAttributes(navButtonAttributes, for: .normal)
-        saveButton.setTitleTextAttributes(navButtonAttributes, for: .selected)
-        saveButton.accessibilityLabel = "Save"
-        saveButton.accessibilityIdentifier = "saveButton"
+        saveButton.setTitleTextAttributes(ctaButtonAttributes, for: .normal)
+        saveButton.setTitleTextAttributes(ctaButtonAttributes, for: .selected)
         navigationItem.rightBarButtonItem = saveButton
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        currentRowSelection = userDefaults.integer(forKey: "sortOrder")
     }
     
     @objc func saveSortOrder() {
@@ -101,13 +97,13 @@ class SortTableViewController: UITableViewController {
         let row = indexPath.row
         let previousRowSelection = currentRowSelection
         currentRowSelection = row
-        
         let oldIndexPath = IndexPath(row: previousRowSelection, section: 0)
         let newIndexPath = IndexPath(row: currentRowSelection, section: 0)
         var indexPaths = [oldIndexPath]
         if oldIndexPath.row != newIndexPath.row {
             indexPaths.append(newIndexPath)
         }
+        userDefaults.set(currentRowSelection, forKey: "sortOrder")
         tableView.reloadRows(at: indexPaths, with: UITableViewRowAnimation.fade)
     }
 

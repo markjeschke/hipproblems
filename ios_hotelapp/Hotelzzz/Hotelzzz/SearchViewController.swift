@@ -23,6 +23,8 @@ private func jsonStringify(_ obj: [AnyHashable: Any]) -> String {
 
 class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate  {
 
+    var userDefaults = UserDefaults.standard
+    
     struct Search {
         let location: String
         let dateStart: Date
@@ -72,6 +74,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // NSNotification observed for capturing sort order and price filter keys.
         let nc = NotificationCenter.default
         nc.addObserver(forName:NSNotification.Name(rawValue: notificationSortOrderKey), object:nil, queue:nil, using: catchSortOrderNotification)
@@ -181,6 +184,10 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
             }
             self.performSegue(withIdentifier: "hotel_details", sender: nil)
         case "HOTEL_API_RESULTS_READY":
+            setPrice(min: 0, max: userDefaults.integer(forKey: "priceMax"))
+            let defaultSortOrderRow = userDefaults.integer(forKey: "sortOrder")
+            let orderRow = Array(sortOptionsDictionary.values)[defaultSortOrderRow]
+            selectSortId(sortBy: orderRow)
              if let hotelResults = message.body as? Dictionary<String, AnyObject> {
                 for (_, value) in hotelResults {
                     var hotelCountPlural = "hotel"

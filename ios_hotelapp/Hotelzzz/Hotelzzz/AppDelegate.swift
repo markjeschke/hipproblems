@@ -32,11 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSAttributedStringKey.font : UIFont.brandSemiBoldFont(size: 35.0)
         ]
         
-        let navBackTitleAttributes = [
-            NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
-            NSAttributedStringKey.font: UIFont.brandRegularFont(size: 16.0)
-        ]
-        
         let navBarAppearance = UINavigationBar.appearance()
         navBarAppearance.tintColor = .primaryBrandColor
         navBarAppearance.titleTextAttributes = navTitleAttributes
@@ -44,14 +39,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             navBarAppearance.largeTitleTextAttributes = largeTitleAttributes
         }
         
+        let navButtonAttributes = [
+            NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
+            NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0)
+        ]
+        
         let barButtonAppearance = UIBarButtonItem.appearance()
-        barButtonAppearance.setTitleTextAttributes(navBackTitleAttributes, for: .normal)
-        barButtonAppearance.setTitleTextAttributes(navBackTitleAttributes, for: .highlighted)
+        barButtonAppearance.setTitleTextAttributes(navButtonAttributes, for: .normal)
+        barButtonAppearance.setTitleTextAttributes(navButtonAttributes, for: .highlighted)
         
         UITabBar.appearance().tintColor = .primaryBrandColor
         UIButton.appearance().tintColor = .primaryBrandColor
         UILabel.appearance().backgroundColor = .clear
-        
+
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
