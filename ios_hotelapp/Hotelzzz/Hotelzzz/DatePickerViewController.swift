@@ -20,7 +20,13 @@ class DatePickerViewController: UIViewController {
     var initialDate: Date?
 
     @IBOutlet var datePicker: UIDatePicker!
-
+    @IBOutlet weak var doneButton: UIButton!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        doneButton.primaryCTA(size: 18.0)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let initialDate = initialDate {

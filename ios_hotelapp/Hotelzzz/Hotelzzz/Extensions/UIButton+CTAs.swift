@@ -8,21 +8,25 @@
 
 import UIKit
 
-let ctaButtonAttributes: [String: Any] = [
-    NSAttributedStringKey.foregroundColor.rawValue: UIColor.primaryBrandColor,
-    NSAttributedStringKey.font.rawValue : UIFont.brandSemiBoldFont(size: 15.0)
-]
-
 public extension UIButton {
     
-    @objc public static func primaryCTA(size: CGFloat) -> UIButton {
-        let button = UIButton(type: .system) as UIButton
-        button.titleLabel?.font = UIFont.brandSemiBoldFont(size: size)
-//        button.setAttributedTitle(ctaButtonAttributes, for: .normal)
-        button.layer.cornerRadius = 20.0
-        button.layer.borderColor = UIColor.primaryBrandColor.cgColor
-        button.layer.borderWidth = 1.0
-        return button
+    public func primaryCTA(size: CGFloat) {
+        setTitleColor(.white, for: .normal)
+        layer.cornerRadius = bounds.size.height/2
+        layer.backgroundColor = UIColor.primaryBrandColor.cgColor
+        layer.borderColor = UIColor.primaryBrandColor.cgColor
+        layer.borderWidth = 1
+        layer.masksToBounds = true
+        titleLabel?.font = UIFont.brandSemiBoldFont(size: size)
+    }
+    
+    public func secondaryCTA(size: CGFloat) {
+        setTitleColor(.primaryBrandColor, for: .normal)
+        layer.cornerRadius = bounds.size.height/2
+        layer.borderColor = UIColor.primaryBrandColor.cgColor
+        layer.borderWidth = 1
+        layer.masksToBounds = true
+        titleLabel?.font = UIFont.brandSemiBoldFont(size: size)
     }
     
     

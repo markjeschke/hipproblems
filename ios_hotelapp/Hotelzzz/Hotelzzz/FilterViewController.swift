@@ -16,14 +16,25 @@ protocol FilterViewControllerDelegate: class {
 class FilterViewController: UIViewController {
     weak var delegate: FilterViewControllerDelegate?
     
-    var initialMinimumPrice: Int?
-    var initialMaximumPrice: Int?
+    var minValue = 0
+    var maxValue = 0
     
-    var priceMin: Int?
-    var priceMax: Int?
+    var priceMin: Int? {
+        didSet {
+            if let priceMin = priceMin {
+                minValue = priceMin
+            }
+        }
+    }
     
-    var minValue = 100
-    var maxValue = 500
+    var priceMax: Int? {
+        didSet {
+            if let priceMax = priceMax {
+                maxValue = priceMax
+            }
+        }
+    }
+    
     var newMaxValue = 501
     var currentPrice = "Any"
     
@@ -49,17 +60,10 @@ class FilterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let ctaButtonAttributes = [
-            NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
-            NSAttributedStringKey.font : UIFont.brandSemiBoldFont(size: 15.0)
-        ]
-        
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissModalView))
         navigationItem.leftBarButtonItem = cancelButton
         
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveData))
-        saveButton.setTitleTextAttributes(ctaButtonAttributes, for: .normal)
-        saveButton.setTitleTextAttributes(ctaButtonAttributes, for: .selected)
         navigationItem.rightBarButtonItem = saveButton
         
         priceFilterSlider.minimumValue = Float(minValue)
@@ -77,20 +81,11 @@ class FilterViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if let initialMinimumPrice = initialMinimumPrice {
-            print("initialMinimumPrice: \(initialMinimumPrice)")
-        }
-        
-        if let initialMaximumPrice = initialMaximumPrice {
-            print("initialMaximumPrice: \(initialMaximumPrice)")
-        }
 
         let grabDefaultsForPriceMax = userDefaults.integer(forKey: "priceMax")
         if grabDefaultsForPriceMax == -1 {
             userDefaults.set(minValue, forKey: "priceMin")
             userDefaults.set(maxValue+1, forKey: "priceMax")
-            print("initialize priceMax = \(grabDefaultsForPriceMax)")
         } else {
             newMaxValue = userDefaults.integer(forKey: "priceMax")
             priceFilterSlider.value = Float(newMaxValue)
@@ -100,7 +95,6 @@ class FilterViewController: UIViewController {
                 currentPrice = "$\(newMaxValue)"
             }
             pricePerNightLabel.text = "Price per night: \(currentPrice)"
-            print("newMaxValue = \(newMaxValue)")
         }
     }
     
@@ -114,7 +108,6 @@ class FilterViewController: UIViewController {
         priceMax = newMaxValue
         if let priceMin = priceMin, let priceMax = priceMax {
             delegate?.filterSelector(viewController: self, priceMin: priceMin, priceMax: priceMax)
-            print("delegate from filter should fire")
         }
     }
     

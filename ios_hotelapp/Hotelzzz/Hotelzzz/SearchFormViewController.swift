@@ -22,6 +22,7 @@ private let dateFormatter: DateFormatter = {
 class SearchFormViewController: UIViewController, DatePickerViewControllerDelegate {
     @IBOutlet var openDateStartPickerButton: UIButton!
     @IBOutlet var openDateEndPickerButton: UIButton!
+    @IBOutlet weak var searchButton: UIButton!
     
     var searchController = UISearchController(searchResultsController: nil)
     var searchBarLocationText = "San Francisco"
@@ -61,6 +62,16 @@ class SearchFormViewController: UIViewController, DatePickerViewControllerDelega
         _updateCheckOut()
         dateFormatter.timeStyle = .none
         formatSearchController()
+        
+//        searchButton.titleLabel?.font = .brandSemiBoldFont(size: 18.0)
+//        searchButton.setTitleColor(.primaryBrandColor, for: .normal)
+//        searchButton.titleLabel?.textColor = .primaryBrandColor
+//        searchButton.layer.cornerRadius = searchButton.bounds.size.height/2
+//        searchButton.layer.borderColor = UIColor.primaryBrandColor.cgColor
+//        searchButton.layer.borderWidth = 1
+//        searchButton.layer.masksToBounds = true
+        
+        searchButton.primaryCTA(size: 20)
         
     }
     
@@ -121,12 +132,10 @@ class SearchFormViewController: UIViewController, DatePickerViewControllerDelega
 extension SearchFormViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        print("canceled")
         searchBar.setShowsCancelButton(false, animated: true)
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        print("text began editing")
         searchBar.setShowsCancelButton(true, animated: true)
         guard let firstSubview = searchBar.subviews.first else { return }
         firstSubview.subviews.forEach {
@@ -139,7 +148,6 @@ extension SearchFormViewController: UISearchBarDelegate {
         if searchText != "" {
             searchBarLocationText = searchText
         }
-        print("search button clicked")
         searchBar.setShowsCancelButton(false, animated: true)
     }
     

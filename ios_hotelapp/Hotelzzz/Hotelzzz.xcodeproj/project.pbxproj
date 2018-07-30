@@ -97,6 +97,7 @@
 		174160E02108348F00CF67F2 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				F27251341E95A60E00222BC8 /* UIViewController+Extensions.swift */,
 				1787765E210EDEAE008153A6 /* UILabel+LineSpacing.swift */,
 				174160E12108348F00CF67F2 /* UIImageView+Cache.swift */,
 				174160E22108348F00CF67F2 /* UIColor+BrandColors.swift */,
@@ -153,7 +154,6 @@
 				F222BCDC1E81E72500CE0EB2 /* Assets.xcassets */,
 				F222BCDE1E81E72500CE0EB2 /* LaunchScreen.storyboard */,
 				F222BCE11E81E72500CE0EB2 /* Info.plist */,
-				F27251341E95A60E00222BC8 /* UIViewController+Extensions.swift */,
 				174160E92109380200CF67F2 /* Fonts */,
 				174160E02108348F00CF67F2 /* Extensions */,
 			);

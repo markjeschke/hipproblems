@@ -22,8 +22,6 @@ private func jsonStringify(_ obj: [AnyHashable: Any]) -> String {
 }
 
 class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate, FilterViewControllerDelegate, SortTableViewControllerDelegate  {
-    
-
     var userDefaults = UserDefaults.standard
     
     struct Search {
@@ -47,8 +45,8 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     fileprivate var name: String = ""
     fileprivate var imageURL: String = ""
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
-    
     @IBOutlet weak var activityIndicatorVerticalLayoutConstraint: NSLayoutConstraint!
+    
     lazy var webView: WKWebView = {
         let webView = WKWebView(frame: CGRect.zero, configuration: {
             let jScript = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no'); document.getElementsByTagName('head')[0].appendChild(meta);"
@@ -75,6 +73,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         return webView
     }()
     
+    // View Lifecycles
     override func viewDidLoad() {
         super.viewDidLoad()
         startLoadingIndicator()
@@ -87,6 +86,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         }
     }
     
+    // MARK: Prepare segues via identifiers.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case .some("hotel_details"):
@@ -107,7 +107,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         }
     }
     
-    // MARK: Segues from SearchViewController.
+    // MARK: Segue handlers from SearchViewController.
     private func _handleHotelDetailsSegue(destination: UIViewController, name: String, address: String, price: Int, imageURL: String) {
         guard let hotelVC = destination as? HotelViewController else {
                 fatalError("Segue destination has unexpected type")
@@ -197,7 +197,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         case "HOTEL_API_HOTEL_SELECTED":
             if let selectedHotel = message.body as? Dictionary<String, AnyObject> {
                 for (_, value) in selectedHotel {
-                    for (key, value) in (value as? Dictionary<String, AnyObject>)! {
+                    for (key, value) in (value as! Dictionary<String, AnyObject>) {
                         switch key {
                         case "price":
                             price = value as! Int

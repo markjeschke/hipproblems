@@ -28,15 +28,16 @@ class HotelViewController: UIViewController {
             hotelNameLabel.text = name
         }
         hotelNameLabel.font = .brandBoldFont(size: 20.0)
-        
+        hotelNameLabel.textColor = .secondaryBrandColor
         if let price = selectedPrice {
             hotelPriceLabel.text = "$\(price)"
         }
         hotelPriceLabel.font = .brandBoldFont(size: 25.0)
-        hotelPriceLabel.textColor = .primaryBrandColor
+        hotelPriceLabel.textColor = .pricingColor
         
         if let address = selectedAddress {
             hotelAddressLabel.text = address
+            hotelAddressLabel.setLineSpacing(lineSpacing: 1.0, lineHeightMultiple: 1.2)
         }
         hotelImageView.layer.masksToBounds = true
         

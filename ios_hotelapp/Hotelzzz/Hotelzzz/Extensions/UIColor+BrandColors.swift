@@ -10,10 +10,18 @@ import UIKit
 
 public extension UIColor {
     @objc public class var primaryBrandColor: UIColor {
-        return UIColor(red: 51/255, green: 148/255, blue: 222/255, alpha: 1)
+        return UIColor(red: 217/255, green: 84/255, blue: 68/255, alpha: 1)
     }
     
     @objc public class var secondaryBrandColor: UIColor {
-        return UIColor(red: 80/255, green: 80/255, blue: 80/255, alpha: 1)
+        return UIColor(red: 78/255, green: 78/255, blue: 82/255, alpha: 1)
+    }
+    
+    @objc public class var pricingColor: UIColor {
+        return UIColor(red: 81/255, green: 163/255, blue: 163/255, alpha: 1)
+    }
+    
+    @objc public class var navBarBrandColor: UIColor {
+        return UIColor(red: 157/255, green: 147/255, blue: 159/255, alpha: 1)
     }
 }

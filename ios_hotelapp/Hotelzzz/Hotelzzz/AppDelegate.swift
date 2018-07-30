@@ -53,6 +53,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UILabel.appearance().font = UIFont.brandRegularFont(size: 16.0)
         UILabel.appearance().backgroundColor = .clear
+        UIButton.appearance().tintColor = .primaryBrandColor
+        UITableView.appearance().tintColor = .primaryBrandColor
+        UIDatePicker.appearance().tintColor = .primaryBrandColor
 
     }
 
