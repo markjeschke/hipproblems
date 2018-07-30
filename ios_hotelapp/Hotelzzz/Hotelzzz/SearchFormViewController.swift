@@ -45,6 +45,7 @@ class SearchFormViewController: UIViewController, DatePickerViewControllerDelega
         searchController.searchBar.barTintColor = .white
         searchController.searchBar.isTranslucent = true
         searchController.searchBar.returnKeyType = .done
+        searchController.searchBar.autocapitalizationType = .words
         definesPresentationContext = true
         if #available(iOS 11.0, *) {
             navigationItem.searchController = searchController
