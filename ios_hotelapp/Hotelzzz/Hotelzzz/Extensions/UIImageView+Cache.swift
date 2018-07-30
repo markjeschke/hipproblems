@@ -1,9 +1,9 @@
 //
 //  UIImageView+Cache.swift
-//  DoorDashLite
+//  Hotelzzz
 //
-//  Created by Mark Jeschke on 7/19/18.
-//  Copyright © 2018 Mark Jeschke. All rights reserved.
+//  Created by Mark Jeschke on 7/26/18.
+//  Copyright © 2018 Hipmunk, Inc. All rights reserved.
 //
 
 import Foundation

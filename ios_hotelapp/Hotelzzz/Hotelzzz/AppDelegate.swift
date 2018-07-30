@@ -29,27 +29,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let largeTitleAttributes = [
             NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
-            NSAttributedStringKey.font : UIFont.brandSemiBoldFont(size: 35.0)
+            NSAttributedStringKey.font : UIFont.brandRegularFont(size: 35.0)
         ]
         
         let navBarAppearance = UINavigationBar.appearance()
         navBarAppearance.tintColor = .primaryBrandColor
         navBarAppearance.titleTextAttributes = navTitleAttributes
+//        navBarAppearance.barTintColor = .white
+//        navBarAppearance.isTranslucent = false
         if #available(iOS 11.0, *) {
             navBarAppearance.largeTitleTextAttributes = largeTitleAttributes
         }
         
         let navButtonAttributes = [
             NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
-            NSAttributedStringKey.font : UIFont.systemFont(ofSize: 15.0)
+            NSAttributedStringKey.font : UIFont.brandRegularFont(size: 15.0)
         ]
         
         let barButtonAppearance = UIBarButtonItem.appearance()
         barButtonAppearance.setTitleTextAttributes(navButtonAttributes, for: .normal)
         barButtonAppearance.setTitleTextAttributes(navButtonAttributes, for: .highlighted)
         
-        UITabBar.appearance().tintColor = .primaryBrandColor
-        UIButton.appearance().tintColor = .primaryBrandColor
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.primaryBrandColor]
+        
+        UILabel.appearance().font = UIFont.brandRegularFont(size: 16.0)
         UILabel.appearance().backgroundColor = .clear
 
     }

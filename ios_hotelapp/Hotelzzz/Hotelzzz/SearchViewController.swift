@@ -46,7 +46,9 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     fileprivate var address: String = ""
     fileprivate var name: String = ""
     fileprivate var imageURL: String = ""
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
+    @IBOutlet weak var activityIndicatorVerticalLayoutConstraint: NSLayoutConstraint!
     lazy var webView: WKWebView = {
         let webView = WKWebView(frame: CGRect.zero, configuration: {
             let jScript = "var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no'); document.getElementsByTagName('head')[0].appendChild(meta);"
@@ -66,6 +68,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         }())
         webView.translatesAutoresizingMaskIntoConstraints = false
         webView.navigationDelegate = self
+        webView.alpha = 0
         self.view.addSubview(webView)
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[webView]|", options: [], metrics: nil, views: ["webView": webView]))
         self.view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[webView]|", options: [], metrics: nil, views: ["webView": webView]))
@@ -79,6 +82,8 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         let nc = NotificationCenter.default
         nc.addObserver(forName:NSNotification.Name(rawValue: notificationSortOrderKey), object:nil, queue:nil, using: catchSortOrderNotification)
         nc.addObserver(forName:NSNotification.Name(rawValue: notificationPriceFilterKey), object:nil, queue:nil, using: catchPriceFilterNotification)
+        
+        startLoadingIndicator()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -160,6 +165,21 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         print("message.name: \(message.name)")
         switch message.name {
         case "API_READY":
+            activityIndicatorVerticalLayoutConstraint.constant = 20
+            activityIndicatorView.startAnimating()
+            // Drop the activityIndicator with a springy bounce for playfulness.
+            UIView.animate(withDuration: 0.75, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 1.0, options: .curveEaseIn, animations: { [unowned self] in
+                self.view.layoutIfNeeded()
+                self.activityIndicatorView.alpha = 1
+                self.activityIndicatorVerticalLayoutConstraint.constant = 0
+            }) { [unowned self] (show) in
+                self.view.layoutIfNeeded()
+                // Repeat the loading indicator bouncing animation.
+                self.activityIndicatorVerticalLayoutConstraint.constant = 15
+                 UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
+                    self.view.layoutIfNeeded()
+                })
+            }
             guard let searchToRun = _searchToRun else { fatalError("Tried to load the page without having a search to run") }
             self.webView.evaluateJavaScript(
                 "window.JSAPI.runHotelSearch(\(searchToRun.asJSONString))",
@@ -184,6 +204,16 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
             }
             self.performSegue(withIdentifier: "hotel_details", sender: nil)
         case "HOTEL_API_RESULTS_READY":
+            activityIndicatorVerticalLayoutConstraint.constant = view.frame.size.height
+            // Fade in the webView when the results are ready for display.
+             UIView.animate(withDuration: 0.5, delay: 0.3, options: .curveEaseIn, animations: {
+                self.view.layoutIfNeeded()
+                self.webView.alpha = 1
+                self.activityIndicatorView.alpha = 0
+            }) { [unowned self] (show) in
+                // Stop the loading indicator.
+                self.activityIndicatorView.stopAnimating()
+            }
             setPrice(min: 0, max: userDefaults.integer(forKey: "priceMax"))
             let defaultSortOrderRow = userDefaults.integer(forKey: "sortOrder")
             let orderRow = Array(sortOptionsDictionary.values)[defaultSortOrderRow]
@@ -211,6 +241,14 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         let cssString = try! String(contentsOfFile: path).trimmingCharacters(in: .whitespacesAndNewlines)
         let jsString = "var style = document.createElement('style'); style.innerHTML = '\(cssString)'; document.head.appendChild(style);"
         webView.evaluateJavaScript(jsString, completionHandler: nil)
+    }
+    
+    func startLoadingIndicator() {
+        activityIndicatorView.alpha = 0
+        activityIndicatorView.activityIndicatorViewStyle = .whiteLarge
+        activityIndicatorView.isHidden = false
+        activityIndicatorView.color = UIColor.primaryBrandColor
+        activityIndicatorView.hidesWhenStopped = true
     }
     
 }

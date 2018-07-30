@@ -14,7 +14,7 @@ class HotelViewController: UIViewController {
     
     var hotelName: String = "" {
         didSet {
-            title = hotelName
+            print("\(hotelName)")
         }
     }
     
@@ -33,13 +33,12 @@ class HotelViewController: UIViewController {
     
     var hotelPrice: Int = 0 {
         didSet {
-            hotelPriceText = String(hotelPrice)
+            hotelPriceText = String("$\(hotelPrice)")
         }
     }
     
     @IBOutlet var hotelNameLabel: UILabel!
     @IBOutlet var hotelAddressLabel: UILabel!
-    @IBOutlet var hotelIdLabel: UILabel!
     @IBOutlet var hotelPriceLabel: UILabel!
     @IBOutlet var hotelImageView: UIImageView!
 
@@ -47,8 +46,12 @@ class HotelViewController: UIViewController {
         super.viewWillAppear(animated)
         
         hotelNameLabel.text = hotelName
+        hotelNameLabel.font = .brandBoldFont(size: 20.0)
         hotelPriceLabel.text = hotelPriceText
+        hotelPriceLabel.font = .brandBoldFont(size: 25.0)
+        hotelPriceLabel.textColor = .primaryBrandColor
         hotelAddressLabel.text = hotelAddress
+        hotelImageView.layer.masksToBounds = true
         let replacedDimensionsURL = hotelImageURL.replacingOccurrences(of: "100", with: "600")
         hotelImageView.loadImageUsingUrlString(url: URL(string: replacedDimensionsURL))
     }

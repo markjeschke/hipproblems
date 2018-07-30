@@ -20,10 +20,11 @@ private let dateFormatter: DateFormatter = {
 }()
 
 class SearchFormViewController: UIViewController, DatePickerViewControllerDelegate {
-    @IBOutlet var locationField: UITextField!
     @IBOutlet var openDateStartPickerButton: UIButton!
     @IBOutlet var openDateEndPickerButton: UIButton!
-
+    
+    var searchController = UISearchController(searchResultsController: nil)
+    var searchBarLocationText = "San Francisco"
     var checkInDate: Date = Date() { didSet { _updateCheckIn() } }
     var checkOutDate: Date = Date()  { didSet { _updateCheckOut() } }
     fileprivate var _pickingDateType: DateType? = nil
@@ -35,12 +36,31 @@ class SearchFormViewController: UIViewController, DatePickerViewControllerDelega
     private func _updateCheckOut() {
         openDateEndPickerButton.setTitle(dateFormatter.string(from: checkOutDate), for: .normal)
     }
+    
+    private func formatSearchController() {
+        searchController.dimsBackgroundDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.delegate = self
+        searchController.searchBar.keyboardAppearance = .dark
+        searchController.searchBar.barTintColor = .white
+        searchController.searchBar.isTranslucent = true
+        searchController.searchBar.returnKeyType = .done
+        definesPresentationContext = true
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+            navigationItem.hidesSearchBarWhenScrolling = false
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Hotelzzz"
+        
         _updateCheckIn()
         _updateCheckOut()
         dateFormatter.timeStyle = .none
+        formatSearchController()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -48,6 +68,11 @@ class SearchFormViewController: UIViewController, DatePickerViewControllerDelega
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .always
             navigationController?.navigationBar.prefersLargeTitles = true
+            searchController.hidesNavigationBarDuringPresentation = false
+        }
+        searchController.searchBar.placeholder = searchBarLocationText.isEmpty ? "Search City" : searchBarLocationText
+        UIView.animate(withDuration: 0.4) { [unowned self] in
+            self.view.layoutIfNeeded()
         }
     }
 
@@ -67,7 +92,7 @@ class SearchFormViewController: UIViewController, DatePickerViewControllerDelega
             guard let searchVC = segue.destination as? SearchViewController else {
                 fatalError("Segue destination has unexpected type")
             }
-            searchVC.search(location: self.locationField.text ?? "", dateStart: self.checkInDate, dateEnd: self.checkOutDate)
+            searchVC.search(location: self.searchBarLocationText , dateStart: self.checkInDate, dateEnd: self.checkOutDate)
         default:
             fatalError("Can't handle this segue")
         }
@@ -90,4 +115,31 @@ class SearchFormViewController: UIViewController, DatePickerViewControllerDelega
         default: return;
         }
     }
+}
+
+extension SearchFormViewController: UISearchBarDelegate {
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        print("canceled")
+        searchBar.setShowsCancelButton(false, animated: true)
+    }
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("text began editing")
+        searchBar.setShowsCancelButton(true, animated: true)
+        guard let firstSubview = searchBar.subviews.first else { return }
+        firstSubview.subviews.forEach {
+            ($0 as? UITextField)?.clearButtonMode = .whileEditing
+        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchController.searchBar.text else { return }
+        if searchText != "" {
+            searchBarLocationText = searchText
+        }
+        print("search button clicked")
+        searchBar.setShowsCancelButton(false, animated: true)
+    }
+    
 }

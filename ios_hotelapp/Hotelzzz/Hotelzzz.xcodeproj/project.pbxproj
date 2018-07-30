@@ -20,6 +20,8 @@
 		174160F7210A50DA00CF67F2 /* SortTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174160F6210A50DA00CF67F2 /* SortTableViewController.swift */; };
 		174160FB210A539400CF67F2 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174160FA210A539400CF67F2 /* FilterViewController.swift */; };
 		174160FD210A9F7600CF67F2 /* NotificationKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174160FC210A9F7600CF67F2 /* NotificationKey.swift */; };
+		1787765D210ED4A8008153A6 /* UIButton+CTAs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787765C210ED4A8008153A6 /* UIButton+CTAs.swift */; };
+		1787765F210EDEAE008153A6 /* UILabel+LineSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787765E210EDEAE008153A6 /* UILabel+LineSpacing.swift */; };
 		17B26584210BEC0D0066F77F /* SharedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B26583210BEC0D0066F77F /* SharedObjects.swift */; };
 		F222BCD61E81E72500CE0EB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F222BCD51E81E72500CE0EB2 /* AppDelegate.swift */; };
 		F222BCD81E81E72500CE0EB2 /* SearchFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F222BCD71E81E72500CE0EB2 /* SearchFormViewController.swift */; };
@@ -57,6 +59,8 @@
 		174160F6210A50DA00CF67F2 /* SortTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTableViewController.swift; sourceTree = "<group>"; };
 		174160FA210A539400CF67F2 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		174160FC210A9F7600CF67F2 /* NotificationKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationKey.swift; sourceTree = "<group>"; };
+		1787765C210ED4A8008153A6 /* UIButton+CTAs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+CTAs.swift"; sourceTree = "<group>"; };
+		1787765E210EDEAE008153A6 /* UILabel+LineSpacing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LineSpacing.swift"; sourceTree = "<group>"; };
 		17B26583210BEC0D0066F77F /* SharedObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedObjects.swift; sourceTree = "<group>"; };
 		F222BCD21E81E72500CE0EB2 /* Hotelzzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hotelzzz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F222BCD51E81E72500CE0EB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,9 +99,11 @@
 		174160E02108348F00CF67F2 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				1787765E210EDEAE008153A6 /* UILabel+LineSpacing.swift */,
 				174160E12108348F00CF67F2 /* UIImageView+Cache.swift */,
 				174160E22108348F00CF67F2 /* UIColor+BrandColors.swift */,
 				174160E32108348F00CF67F2 /* UIFont+BrandFonts.swift */,
+				1787765C210ED4A8008153A6 /* UIButton+CTAs.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -284,10 +290,12 @@
 				17B26584210BEC0D0066F77F /* SharedObjects.swift in Sources */,
 				174160F7210A50DA00CF67F2 /* SortTableViewController.swift in Sources */,
 				F222BCD61E81E72500CE0EB2 /* AppDelegate.swift in Sources */,
+				1787765F210EDEAE008153A6 /* UILabel+LineSpacing.swift in Sources */,
 				F222BCF81E83175000CE0EB2 /* SearchViewController.swift in Sources */,
 				174160E62108348F00CF67F2 /* UIFont+BrandFonts.swift in Sources */,
 				F222BCF61E830D4C00CE0EB2 /* DatePickerViewController.swift in Sources */,
 				174160FB210A539400CF67F2 /* FilterViewController.swift in Sources */,
+				1787765D210ED4A8008153A6 /* UIButton+CTAs.swift in Sources */,
 				F27251351E95A60E00222BC8 /* UIViewController+Extensions.swift in Sources */,
 				174160FD210A9F7600CF67F2 /* NotificationKey.swift in Sources */,
 				174160E52108348F00CF67F2 /* UIColor+BrandColors.swift in Sources */,
