@@ -6,9 +6,21 @@
 //  Copyright © 2018 Hipmunk, Inc. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
+protocol FilterViewControllerDelegate: class {
+    func filterSelector(viewController: FilterViewController, priceMin: Int, priceMax: Int)
+}
+
 class FilterViewController: UIViewController {
+    weak var delegate: FilterViewControllerDelegate?
+    
+    var initialMinimumPrice: Int?
+    var initialMaximumPrice: Int?
+    
+    var priceMin: Int?
+    var priceMax: Int?
     
     var minValue = 100
     var maxValue = 500
@@ -65,6 +77,15 @@ class FilterViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if let initialMinimumPrice = initialMinimumPrice {
+            print("initialMinimumPrice: \(initialMinimumPrice)")
+        }
+        
+        if let initialMaximumPrice = initialMaximumPrice {
+            print("initialMaximumPrice: \(initialMaximumPrice)")
+        }
+
         let grabDefaultsForPriceMax = userDefaults.integer(forKey: "priceMax")
         if grabDefaultsForPriceMax == -1 {
             userDefaults.set(minValue, forKey: "priceMin")
@@ -87,16 +108,14 @@ class FilterViewController: UIViewController {
         if newMaxValue == (maxValue+1) {
             newMaxValue = -1
         }
-        
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationPriceFilterKey),
-                                        object: nil,
-                                        userInfo: [
-                                            "priceMin": minValue,
-                                            "priceMax": newMaxValue
-            ])
         userDefaults.set(minValue, forKey: "priceMin")
         userDefaults.set(newMaxValue, forKey: "priceMax")
-        print("priceMax from userDefaults: \(userDefaults.integer(forKey: "priceMax"))")
+        priceMin = minValue
+        priceMax = newMaxValue
+        if let priceMin = priceMin, let priceMax = priceMax {
+            delegate?.filterSelector(viewController: self, priceMin: priceMin, priceMax: priceMax)
+            print("delegate from filter should fire")
+        }
     }
     
     @objc func saveData() {

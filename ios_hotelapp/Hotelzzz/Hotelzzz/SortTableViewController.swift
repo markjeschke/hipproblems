@@ -6,12 +6,17 @@
 //  Copyright © 2018 Hipmunk, Inc. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
+protocol SortTableViewControllerDelegate: class {
+    func sortOrderSelector(viewController: SortTableViewController, didSelectSortOrder: String)
+}
+
 class SortTableViewController: UITableViewController {
-    
+
+    weak var delegate: SortTableViewControllerDelegate?
     var userDefaults = UserDefaults.standard
-    
     var currentRowSelection = -1
 
     var typeList:[String] {
@@ -55,16 +60,23 @@ class SortTableViewController: UITableViewController {
     
     @objc func saveSortOrder() {
         if let rowDataValue = sortOptionsDictionary[typeList[currentRowSelection]] {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: notificationSortOrderKey),
-                                            object: nil,
-                                            userInfo: [
-                                                "sortOrder": rowDataValue
-                ])
+            self.delegate?.sortOrderSelector(viewController: self, didSelectSortOrder: rowDataValue)
+            dismissModalView()
         }
-        dismissModalView()
     }
     
     @objc func dismissModalView() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func doneAction(sender: Any?) {
+        if let rowDataValue = sortOptionsDictionary[typeList[currentRowSelection]] {
+            self.delegate?.sortOrderSelector(viewController: self, didSelectSortOrder: rowDataValue)
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func cancelAction(sender: Any?) {
         self.dismiss(animated: true, completion: nil)
     }
 
@@ -93,7 +105,6 @@ class SortTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
         let row = indexPath.row
         let previousRowSelection = currentRowSelection
         currentRowSelection = row

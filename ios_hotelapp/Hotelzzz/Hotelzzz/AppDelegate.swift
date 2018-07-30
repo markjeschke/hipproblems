@@ -35,15 +35,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navBarAppearance = UINavigationBar.appearance()
         navBarAppearance.tintColor = .primaryBrandColor
         navBarAppearance.titleTextAttributes = navTitleAttributes
-//        navBarAppearance.barTintColor = .white
-//        navBarAppearance.isTranslucent = false
+        
         if #available(iOS 11.0, *) {
             navBarAppearance.largeTitleTextAttributes = largeTitleAttributes
         }
         
         let navButtonAttributes = [
             NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
-            NSAttributedStringKey.font : UIFont.brandRegularFont(size: 15.0)
+            NSAttributedStringKey.font : UIFont.brandSemiBoldFont(size: 15.0)
         ]
         
         let barButtonAppearance = UIBarButtonItem.appearance()

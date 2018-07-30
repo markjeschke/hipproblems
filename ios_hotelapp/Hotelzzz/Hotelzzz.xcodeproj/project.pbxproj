@@ -19,7 +19,6 @@
 		174160F52109380200CF67F2 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 174160EF2109380200CF67F2 /* Montserrat-Regular.ttf */; };
 		174160F7210A50DA00CF67F2 /* SortTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174160F6210A50DA00CF67F2 /* SortTableViewController.swift */; };
 		174160FB210A539400CF67F2 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174160FA210A539400CF67F2 /* FilterViewController.swift */; };
-		174160FD210A9F7600CF67F2 /* NotificationKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174160FC210A9F7600CF67F2 /* NotificationKey.swift */; };
 		1787765D210ED4A8008153A6 /* UIButton+CTAs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787765C210ED4A8008153A6 /* UIButton+CTAs.swift */; };
 		1787765F210EDEAE008153A6 /* UILabel+LineSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787765E210EDEAE008153A6 /* UILabel+LineSpacing.swift */; };
 		17B26584210BEC0D0066F77F /* SharedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B26583210BEC0D0066F77F /* SharedObjects.swift */; };
@@ -58,7 +57,6 @@
 		174160EF2109380200CF67F2 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		174160F6210A50DA00CF67F2 /* SortTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTableViewController.swift; sourceTree = "<group>"; };
 		174160FA210A539400CF67F2 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
-		174160FC210A9F7600CF67F2 /* NotificationKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationKey.swift; sourceTree = "<group>"; };
 		1787765C210ED4A8008153A6 /* UIButton+CTAs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+CTAs.swift"; sourceTree = "<group>"; };
 		1787765E210EDEAE008153A6 /* UILabel+LineSpacing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LineSpacing.swift"; sourceTree = "<group>"; };
 		17B26583210BEC0D0066F77F /* SharedObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedObjects.swift; sourceTree = "<group>"; };
@@ -143,15 +141,14 @@
 			isa = PBXGroup;
 			children = (
 				F222BCD51E81E72500CE0EB2 /* AppDelegate.swift */,
-				174160FC210A9F7600CF67F2 /* NotificationKey.swift */,
 				17B26583210BEC0D0066F77F /* SharedObjects.swift */,
 				F222BCD71E81E72500CE0EB2 /* SearchFormViewController.swift */,
 				F222BCF51E830D4C00CE0EB2 /* DatePickerViewController.swift */,
-				174160E72109257B00CF67F2 /* styles.css */,
 				F222BCF71E83175000CE0EB2 /* SearchViewController.swift */,
 				174160F6210A50DA00CF67F2 /* SortTableViewController.swift */,
 				174160FA210A539400CF67F2 /* FilterViewController.swift */,
 				F222BCF91E83235F00CE0EB2 /* HotelViewController.swift */,
+				174160E72109257B00CF67F2 /* styles.css */,
 				F222BCD91E81E72500CE0EB2 /* Main.storyboard */,
 				F222BCDC1E81E72500CE0EB2 /* Assets.xcassets */,
 				F222BCDE1E81E72500CE0EB2 /* LaunchScreen.storyboard */,
@@ -297,7 +294,6 @@
 				174160FB210A539400CF67F2 /* FilterViewController.swift in Sources */,
 				1787765D210ED4A8008153A6 /* UIButton+CTAs.swift in Sources */,
 				F27251351E95A60E00222BC8 /* UIViewController+Extensions.swift in Sources */,
-				174160FD210A9F7600CF67F2 /* NotificationKey.swift in Sources */,
 				174160E52108348F00CF67F2 /* UIColor+BrandColors.swift in Sources */,
 				F222BCFA1E83235F00CE0EB2 /* HotelViewController.swift in Sources */,
 				174160E42108348F00CF67F2 /* UIImageView+Cache.swift in Sources */,

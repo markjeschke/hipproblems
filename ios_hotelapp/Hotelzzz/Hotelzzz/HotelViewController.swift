@@ -9,33 +9,12 @@
 import Foundation
 import UIKit
 
-
 class HotelViewController: UIViewController {
     
-    var hotelName: String = "" {
-        didSet {
-            print("\(hotelName)")
-        }
-    }
-    
-    var hotelAddress: String = "" {
-        didSet {
-            print("hotelAddress: \(hotelAddress)")
-        }
-    }
-    
-    var hotelImageURL: String = "" {
-        didSet {
-            print("hotelPrice: \(hotelImageURL)")
-        }
-    }
-    var hotelPriceText: String =  ""
-    
-    var hotelPrice: Int = 0 {
-        didSet {
-            hotelPriceText = String("$\(hotelPrice)")
-        }
-    }
+    var selectedName: String?
+    var selectedAddress: String?
+    var selectedPrice: Int?
+    var selectedImageURL: String?
     
     @IBOutlet var hotelNameLabel: UILabel!
     @IBOutlet var hotelAddressLabel: UILabel!
@@ -45,14 +24,26 @@ class HotelViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        hotelNameLabel.text = hotelName
+        if let name = selectedName {
+            hotelNameLabel.text = name
+        }
         hotelNameLabel.font = .brandBoldFont(size: 20.0)
-        hotelPriceLabel.text = hotelPriceText
+        
+        if let price = selectedPrice {
+            hotelPriceLabel.text = "$\(price)"
+        }
         hotelPriceLabel.font = .brandBoldFont(size: 25.0)
         hotelPriceLabel.textColor = .primaryBrandColor
-        hotelAddressLabel.text = hotelAddress
+        
+        if let address = selectedAddress {
+            hotelAddressLabel.text = address
+        }
         hotelImageView.layer.masksToBounds = true
-        let replacedDimensionsURL = hotelImageURL.replacingOccurrences(of: "100", with: "600")
-        hotelImageView.loadImageUsingUrlString(url: URL(string: replacedDimensionsURL))
+        
+        if let imageURL = selectedImageURL {
+            let replacedDimensionsURL = imageURL.replacingOccurrences(of: "100", with: "600")
+            hotelImageView.loadImageUsingUrlString(url: URL(string: replacedDimensionsURL))
+        }
+        
     }
 }

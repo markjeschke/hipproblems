@@ -21,7 +21,8 @@ private func jsonStringify(_ obj: [AnyHashable: Any]) -> String {
     return String(data: data, encoding: .utf8)!
 }
 
-class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate  {
+class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate, FilterViewControllerDelegate, SortTableViewControllerDelegate  {
+    
 
     var userDefaults = UserDefaults.standard
     
@@ -40,7 +41,6 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     }
 
     fileprivate  var _searchToRun: Search?
-    fileprivate let notificationKeys = [notificationSortOrderKey, notificationPriceFilterKey]
     fileprivate var price = 0
     fileprivate var hotelDictionary = [String: AnyObject]()
     fileprivate var address: String = ""
@@ -77,12 +77,6 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // NSNotification observed for capturing sort order and price filter keys.
-        let nc = NotificationCenter.default
-        nc.addObserver(forName:NSNotification.Name(rawValue: notificationSortOrderKey), object:nil, queue:nil, using: catchSortOrderNotification)
-        nc.addObserver(forName:NSNotification.Name(rawValue: notificationPriceFilterKey), object:nil, queue:nil, using: catchPriceFilterNotification)
-        
         startLoadingIndicator()
     }
     
@@ -93,48 +87,64 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         }
     }
     
-    // MARK: - Segue to HotelViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "hotel_details" {
-            let controller = segue.destination as! HotelViewController
-            controller.hotelName = name
-            controller.hotelPrice = price
-            controller.hotelAddress = address
-            controller.hotelImageURL = imageURL
+        switch segue.identifier {
+        case .some("hotel_details"):
+            _handleHotelDetailsSegue(destination: segue.destination,
+                                     name: NSLocalizedString(name, comment: ""),
+                                     address: NSLocalizedString(address, comment: ""),
+                                     price: price,
+                                     imageURL: NSLocalizedString(imageURL, comment: ""))
+        case .some("select_sort_order"):
+            _handleSortOrderSegue(destination: segue.destination,
+                                  currentRowSelection: 0)
+        case .some("select_filters"):
+            _handleFiltersSegue(destination: segue.destination,
+                                priceMin: 100,
+                                priceMax: 500)
+        default:
+            fatalError("Can't handle this segue")
         }
     }
     
-    // MARK: Catch NSNotifications
-    @objc func catchSortOrderNotification(notification:Notification) -> Void {
-        guard
-            let userInfo = notification.userInfo,
-            let sortOrder = userInfo["sortOrder"] as? String
-            else {
-                assert(false, "No userInfo found in notification")
-                return
+    // MARK: Segues from SearchViewController.
+    private func _handleHotelDetailsSegue(destination: UIViewController, name: String, address: String, price: Int, imageURL: String) {
+        guard let hotelVC = destination as? HotelViewController else {
+                fatalError("Segue destination has unexpected type")
         }
-        selectSortId(sortBy: sortOrder)
+        hotelVC.navigationItem.title = name
+        hotelVC.selectedName = name
+        hotelVC.selectedAddress = address
+        hotelVC.selectedPrice = price
+        hotelVC.selectedImageURL = imageURL
     }
     
-    @objc func catchPriceFilterNotification(notification:Notification) -> Void {
-        guard
-            let userInfo = notification.userInfo,
-            let priceMin = userInfo["priceMin"] as? Int,
-            let priceMax = userInfo["priceMax"] as? Int
-            else {
-                assert(false, "No userInfo found in notification")
-                return
+    private func _handleSortOrderSegue(destination: UIViewController, currentRowSelection: Int) {
+        guard let navVC = destination as? UINavigationController,
+            let sortVC = navVC.topViewController as? SortTableViewController else {
+                fatalError("Segue destination has unexpected type")
         }
+        sortVC.currentRowSelection = currentRowSelection
+        sortVC.delegate = self
+    }
+    
+    private func _handleFiltersSegue(destination: UIViewController, priceMin: Int, priceMax: Int) {
+        guard let navVC = destination as? UINavigationController,
+            let filtersVC = navVC.topViewController as? FilterViewController else {
+                fatalError("Segue destination has unexpected type")
+        }
+        filtersVC.priceMin = priceMin
+        filtersVC.priceMax = priceMax
+        filtersVC.delegate = self
+    }
+    
+    // MARK: Delegate callbacks with values from each selection.
+    func sortOrderSelector(viewController: SortTableViewController, didSelectSortOrder: String) {
+        selectSortId(sortBy: didSelectSortOrder)
+    }
+    
+    func filterSelector(viewController: FilterViewController, priceMin: Int, priceMax: Int) {
         setPrice(min: priceMin, max: priceMax)
-    }
-    
-    // Remove the NSNotifications observers.
-    deinit {
-        for key in notificationKeys {
-            NotificationCenter.default.removeObserver(self,
-                                                      name: NSNotification.Name(rawValue: key),
-                                                      object: nil)
-        }
     }
     
     func selectSortId(sortBy: String) {
@@ -176,7 +186,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
                 self.view.layoutIfNeeded()
                 // Repeat the loading indicator bouncing animation.
                 self.activityIndicatorVerticalLayoutConstraint.constant = 15
-                 UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
                     self.view.layoutIfNeeded()
                 })
             }
