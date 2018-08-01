@@ -49,4 +49,9 @@ class HotelViewController: UIViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        scrollView.flashScrollIndicators()
+    }
+    
 }
