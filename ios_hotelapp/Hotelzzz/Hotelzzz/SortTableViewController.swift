@@ -34,14 +34,9 @@ class SortTableViewController: UITableViewController {
             userDefaults.set(currentRowSelection, forKey: "sortOrder")
         }
         
-        title = "Sort Hotels by:"
+        title = "Sort"
         
         tableView.tableFooterView = UIView(frame: .zero)
-
-        let ctaButtonAttributes = [
-            NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
-            NSAttributedStringKey.font : UIFont.brandSemiBoldFont(size: 15.0)
-        ]
         
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissModalView))
         navigationItem.leftBarButtonItem = cancelButton

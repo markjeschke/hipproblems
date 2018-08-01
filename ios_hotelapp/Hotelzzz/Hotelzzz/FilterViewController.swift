@@ -64,6 +64,8 @@ class FilterViewController: UIViewController {
         navigationItem.leftBarButtonItem = cancelButton
         
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveData))
+        saveButton.setTitleTextAttributes(ctaButtonAttributes, for: .normal)
+        saveButton.setTitleTextAttributes(ctaButtonAttributes, for: .highlighted)
         navigationItem.rightBarButtonItem = saveButton
         
         priceFilterSlider.minimumValue = Float(minValue)

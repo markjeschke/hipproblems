@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let navButtonAttributes = [
             NSAttributedStringKey.foregroundColor: UIColor.primaryBrandColor,
-            NSAttributedStringKey.font : UIFont.brandSemiBoldFont(size: 15.0)
+            NSAttributedStringKey.font : UIFont.brandRegularFont(size: 15.0)
         ]
         
         let barButtonAppearance = UIBarButtonItem.appearance()

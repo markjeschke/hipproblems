@@ -24,6 +24,9 @@ private func jsonStringify(_ obj: [AnyHashable: Any]) -> String {
 class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate, FilterViewControllerDelegate, SortTableViewControllerDelegate  {
     var userDefaults = UserDefaults.standard
     
+    @IBOutlet weak var sortBarButtonItem: UIBarButtonItem!
+    @IBOutlet weak var FilterBarButtonItem: UIBarButtonItem!
+    
     struct Search {
         let location: String
         let dateStart: Date
@@ -74,6 +77,15 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     }()
     
     // View Lifecycles
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        sortBarButtonItem.setTitleTextAttributes(ctaButtonAttributes, for: .normal)
+        sortBarButtonItem.setTitleTextAttributes(ctaButtonAttributes, for: .highlighted)
+        FilterBarButtonItem.setTitleTextAttributes(ctaButtonAttributes, for: .normal)
+        FilterBarButtonItem.setTitleTextAttributes(ctaButtonAttributes, for: .highlighted)
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         startLoadingIndicator()

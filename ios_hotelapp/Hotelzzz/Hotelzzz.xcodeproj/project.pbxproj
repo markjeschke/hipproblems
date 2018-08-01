@@ -21,7 +21,7 @@
 		174160FB210A539400CF67F2 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174160FA210A539400CF67F2 /* FilterViewController.swift */; };
 		1787765D210ED4A8008153A6 /* UIButton+CTAs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787765C210ED4A8008153A6 /* UIButton+CTAs.swift */; };
 		1787765F210EDEAE008153A6 /* UILabel+LineSpacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1787765E210EDEAE008153A6 /* UILabel+LineSpacing.swift */; };
-		17B26584210BEC0D0066F77F /* SharedObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B26583210BEC0D0066F77F /* SharedObjects.swift */; };
+		17B26584210BEC0D0066F77F /* SharedVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17B26583210BEC0D0066F77F /* SharedVariables.swift */; };
 		F222BCD61E81E72500CE0EB2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F222BCD51E81E72500CE0EB2 /* AppDelegate.swift */; };
 		F222BCD81E81E72500CE0EB2 /* SearchFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F222BCD71E81E72500CE0EB2 /* SearchFormViewController.swift */; };
 		F222BCDB1E81E72500CE0EB2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F222BCD91E81E72500CE0EB2 /* Main.storyboard */; };
@@ -59,7 +59,7 @@
 		174160FA210A539400CF67F2 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		1787765C210ED4A8008153A6 /* UIButton+CTAs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+CTAs.swift"; sourceTree = "<group>"; };
 		1787765E210EDEAE008153A6 /* UILabel+LineSpacing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+LineSpacing.swift"; sourceTree = "<group>"; };
-		17B26583210BEC0D0066F77F /* SharedObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedObjects.swift; sourceTree = "<group>"; };
+		17B26583210BEC0D0066F77F /* SharedVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedVariables.swift; sourceTree = "<group>"; };
 		F222BCD21E81E72500CE0EB2 /* Hotelzzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hotelzzz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F222BCD51E81E72500CE0EB2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F222BCD71E81E72500CE0EB2 /* SearchFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFormViewController.swift; sourceTree = "<group>"; };
@@ -142,7 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				F222BCD51E81E72500CE0EB2 /* AppDelegate.swift */,
-				17B26583210BEC0D0066F77F /* SharedObjects.swift */,
+				17B26583210BEC0D0066F77F /* SharedVariables.swift */,
 				F222BCD71E81E72500CE0EB2 /* SearchFormViewController.swift */,
 				F222BCF51E830D4C00CE0EB2 /* DatePickerViewController.swift */,
 				F222BCF71E83175000CE0EB2 /* SearchViewController.swift */,
@@ -284,7 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F222BCD81E81E72500CE0EB2 /* SearchFormViewController.swift in Sources */,
-				17B26584210BEC0D0066F77F /* SharedObjects.swift in Sources */,
+				17B26584210BEC0D0066F77F /* SharedVariables.swift in Sources */,
 				174160F7210A50DA00CF67F2 /* SortTableViewController.swift in Sources */,
 				F222BCD61E81E72500CE0EB2 /* AppDelegate.swift in Sources */,
 				1787765F210EDEAE008153A6 /* UILabel+LineSpacing.swift in Sources */,
