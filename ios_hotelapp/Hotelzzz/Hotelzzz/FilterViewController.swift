@@ -78,6 +78,8 @@ class FilterViewController: UIViewController {
         priceMaxLabel.text = "$\(maxValue)"
         averagePriceLabel.text = "Avg. $\(Int(priceFilterSlider.value)/2)"
         pricePerNightLabel.text = "Price per night: \(currentPrice)"
+        pricePerNightLabel.font = .brandSemiBoldFont(size: 18.0)
+        pricePerNightLabel.textColor = .secondaryBrandColor
 
     }
     
