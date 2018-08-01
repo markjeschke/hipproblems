@@ -20,7 +20,8 @@ class HotelViewController: UIViewController {
     @IBOutlet var hotelAddressLabel: UILabel!
     @IBOutlet var hotelPriceLabel: UILabel!
     @IBOutlet var hotelImageView: UIImageView!
-
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -47,4 +48,5 @@ class HotelViewController: UIViewController {
         }
         
     }
+    
 }

@@ -74,8 +74,8 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     }()
     
     // View Lifecycles
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         startLoadingIndicator()
     }
     
@@ -175,21 +175,6 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         print("message.name: \(message.name)")
         switch message.name {
         case "API_READY":
-            activityIndicatorVerticalLayoutConstraint.constant = 20
-            activityIndicatorView.startAnimating()
-            // Drop the activityIndicator with a springy bounce for playfulness.
-            UIView.animate(withDuration: 0.75, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 1.0, options: .curveEaseIn, animations: { [unowned self] in
-                self.view.layoutIfNeeded()
-                self.activityIndicatorView.alpha = 1
-                self.activityIndicatorVerticalLayoutConstraint.constant = 0
-            }) { [unowned self] (show) in
-                self.view.layoutIfNeeded()
-                // Repeat the loading indicator bouncing animation.
-                self.activityIndicatorVerticalLayoutConstraint.constant = 15
-                UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
-                    self.view.layoutIfNeeded()
-                })
-            }
             guard let searchToRun = _searchToRun else { fatalError("Tried to load the page without having a search to run") }
             self.webView.evaluateJavaScript(
                 "window.JSAPI.runHotelSearch(\(searchToRun.asJSONString))",
@@ -259,6 +244,21 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         activityIndicatorView.isHidden = false
         activityIndicatorView.color = UIColor.primaryBrandColor
         activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorVerticalLayoutConstraint.constant = 20
+        activityIndicatorView.startAnimating()
+        // Drop the activityIndicator with a springy bounce for playfulness.
+        UIView.animate(withDuration: 0.75, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 1.0, options: .curveEaseIn, animations: { [unowned self] in
+            self.view.layoutIfNeeded()
+            self.activityIndicatorView.alpha = 1
+            self.activityIndicatorVerticalLayoutConstraint.constant = 0
+        }) { [unowned self] (show) in
+            self.view.layoutIfNeeded()
+            // Repeat the loading indicator bouncing animation.
+            self.activityIndicatorVerticalLayoutConstraint.constant = 15
+            UIView.animate(withDuration: 0.5, delay: 0.0, options: [.curveEaseInOut, .repeat, .autoreverse], animations: {
+                self.view.layoutIfNeeded()
+            })
+        }
     }
     
 }
