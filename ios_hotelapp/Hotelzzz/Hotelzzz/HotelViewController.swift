@@ -43,6 +43,7 @@ class HotelViewController: UIViewController {
         hotelImageView.layer.masksToBounds = true
         
         if let imageURL = selectedImageURL {
+            // Load the higher resolution version, so that it doesn't appear pixelated in the hotel detail view.
             let replacedDimensionsURL = imageURL.replacingOccurrences(of: "100", with: "600")
             hotelImageView.loadImageUsingUrlString(url: URL(string: replacedDimensionsURL))
         }
