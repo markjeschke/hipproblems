@@ -40,8 +40,20 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
             ])
         }
     }
+    
+    struct HotelResult {
+        let price: Int
+        let hotel: Hotel
+    }
+    
+    struct Hotel {
+        let name: String
+        let address: String
+        let imageURL: String
+    }
 
-    fileprivate  var _searchToRun: Search?
+    fileprivate var _searchToRun: Search?
+    fileprivate var _hotelResult: HotelResult?
     fileprivate var price = 0
     fileprivate var hotelDictionary = [String: AnyObject]()
     fileprivate var address: String = ""
@@ -102,11 +114,13 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case .some("hotel_details"):
-            _handleHotelDetailsSegue(destination: segue.destination,
-                                     name: NSLocalizedString(name, comment: ""),
-                                     address: NSLocalizedString(address, comment: ""),
-                                     price: price,
-                                     imageURL: NSLocalizedString(imageURL, comment: ""))
+            if let hotelResult = _hotelResult {
+                _handleHotelDetailsSegue(destination: segue.destination,
+                                         name: NSLocalizedString(hotelResult.hotel.name, comment: ""),
+                                         address: NSLocalizedString(hotelResult.hotel.address, comment: ""),
+                                         price: hotelResult.price,
+                                         imageURL: NSLocalizedString(hotelResult.hotel.imageURL, comment: ""))
+            }
         case .some("select_sort_order"):
             _handleSortOrderSegue(destination: segue.destination,
                                   currentRowSelection: 0)
@@ -124,11 +138,13 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
         guard let hotelVC = destination as? HotelViewController else {
                 fatalError("Segue destination has unexpected type")
         }
-        hotelVC.navigationItem.title = name
-        hotelVC.selectedName = name
-        hotelVC.selectedAddress = address
-        hotelVC.selectedPrice = price
-        hotelVC.selectedImageURL = imageURL
+        if let hotelResult = _hotelResult {
+            hotelVC.navigationItem.title = hotelResult.hotel.name
+            hotelVC.selectedName = hotelResult.hotel.name
+            hotelVC.selectedAddress = hotelResult.hotel.address
+            hotelVC.selectedPrice = hotelResult.price
+            hotelVC.selectedImageURL = hotelResult.hotel.imageURL
+        }
     }
     
     private func _handleSortOrderSegue(destination: UIViewController, currentRowSelection: Int) {
@@ -195,6 +211,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
             if let selectedHotel = message.body as? Dictionary<String, AnyObject> {
                 for (_, value) in selectedHotel {
                     for (key, value) in (value as! Dictionary<String, AnyObject>) {
+                        // There should be a more efficient method for extracting these price and hotel values to create a HotelResults object, rather than creating individual instance variables.
                         switch key {
                         case "price":
                             price = value as! Int
@@ -209,6 +226,7 @@ class SearchViewController: UIViewController, WKScriptMessageHandler, WKNavigati
                     }
                 }
             }
+            _hotelResult = HotelResult(price: price, hotel: Hotel(name: name, address: address, imageURL: imageURL))
             self.performSegue(withIdentifier: "hotel_details", sender: nil)
         case "HOTEL_API_RESULTS_READY":
             activityIndicatorVerticalLayoutConstraint.constant = view.frame.size.height
